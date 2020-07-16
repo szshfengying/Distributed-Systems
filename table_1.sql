@@ -25,4 +25,4 @@ CREATE TABLE `acc_id_table` (
   `acc_id` bigint(20) unsigned NOT NULL,
   `last_modify_date` date NOT NULL COMMENT 'YYYY-MM-DD',
   PRIMARY KEY (`sn_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
