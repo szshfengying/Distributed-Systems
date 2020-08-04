@@ -2,15 +2,14 @@
   <div class="Details">
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <!-- <el-menu :default-openeds="['1', '3']" router="true"> -->
-        <el-menu :default-openeds="['1', '3']">
+        <el-menu :default-openeds="['1', '3']" router="true">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-message"></i>主菜单
             </template>
             <el-menu-item-group>
               <template slot="title">账户详情</template>
-              <el-menu-item index="/Details">账户信息</el-menu-item>
+              <el-menu-item index="/Info">账户信息</el-menu-item>
               <el-menu-item index="/Balance">余额查询</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group title="功能模块">
@@ -27,22 +26,22 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>设置</el-dropdown-item>
               <el-dropdown-item>关于我们</el-dropdown-item>
-              <el-dropdown-item @click.native="back">退出登录</el-dropdown-item>
+              <el-dropdown-item>联系我们</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>{{form.name}}</span>
+          <span>{{name}}</span>
         </el-header>
 
         <el-main>
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="卡号">
-              <el-input :disabled="true" v-model="form.accid"></el-input>
+              <el-input :disabled="true" v-model="infoform.accid"></el-input>
             </el-form-item>
             <el-form-item label="地址">
-              <el-input :disabled="true" v-model="form.addr"></el-input>
+              <el-input :disabled="true" v-model="infoform.addr"></el-input>
             </el-form-item>
             <el-form-item label="币种">
-              <el-input :disabled="true" v-model="form.currtype"></el-input>
+              <el-input :disabled="true" v-model="infoform.currtype"></el-input>
             </el-form-item>
           </el-form>
         </el-main>
@@ -55,19 +54,30 @@
 export default {
   data() {
     return {
-      form: {
-        name: "张炜杰",
-        accid: "123456789",
-        addr: "广东省汕头市濠江区",
-        currtype: "人民币",
-      },
+      name: "张炜杰",
+      infoform:{
+      accid: "",
+      addr: "",
+      currtype: "",
+      }
     };
   },
-  methods: {
-    back() {
-      this.$router.push({ path: "/" });
-    },
+  created(){
+    this.getinfo()
   },
+  methods:{
+      getinfo() {
+          this.$http({
+            url: this.$http.adornUrl("/sys/info"),
+            method: "get",
+          }).then(({ data }) => {
+            this.name=data.name
+            this.infoform.accid=data.accid
+            this.infoform.addr=data.addr
+            this.infoform.currtype=data.currtype
+          });
+    },
+  }
 };
 </script>
 

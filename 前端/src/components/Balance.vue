@@ -10,7 +10,7 @@
             </template>
             <el-menu-item-group>
               <template slot="title">账户详情</template>
-              <el-menu-item index="/Details">账户信息</el-menu-item>
+              <el-menu-item index="/Info">账户信息</el-menu-item>
               <el-menu-item index="/Balance">余额查询</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group title="功能模块">
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import DetailsVue from './Details.vue';
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 
@@ -57,9 +58,11 @@ export default {
   components: {},
   data() {
     return {
-      name: "张炜杰",
-      balance: "99999999999999999999999999999999999999",
-      currtype: "人民币",
+      name,
+      balform:{
+      balance: "",
+      currtype: "",
+      }
     };
   },
   //监听属性 类似于data概念
@@ -68,20 +71,24 @@ export default {
   watch: {},
   //方法集合
   methods: {
-    Transfer() {
-      this.$alert("转账成功", "转账成功", {
-        confirmButtonText: "确定",
-        callback: (action) => {
-          this.$message({
-            type: "info",
-            message: `action: ${action}`,
-          });
-        },
-      });
+    getbal(){
+          this.$http({
+            url: this.$http.adornUrl("/sys/bal"),
+            method: "get",
+          }).then(({ data }) => {
+            this.balform.balance=data.balance
+            this.balform.currtype=data.currtype
+          }); 
     },
+    getname(){ 
+      this.name=DetailsVue.name
+    }
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
+  created() {
+    this.getbal(),
+    getname()
+  },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},
   beforeCreate() {}, //生命周期 - 创建之前

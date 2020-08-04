@@ -74,11 +74,15 @@
         <el-button @click="back">返回</el-button>
       </el-form-item>
     </el-form>
+
   </div>
 </template>
 
 <script>
 // import api from '../axios.js'   https://github.com/qhhsy/vue-koa2-login/blob/master/src/axios.js
+
+
+
 export default {
   data() {
     //自定义验证规则
@@ -111,7 +115,12 @@ export default {
         ExecTellerno: "",
       },
 
+
       options1: [
+        {
+          value: "",
+          label: "",
+        },
         {
           value: "DB01",
           label: "华东",
@@ -132,6 +141,10 @@ export default {
 
       options2: [
         {
+          value: "",
+          label: "",
+        },
+        {
           value: "Branch01",
           label: "网点1",
         },
@@ -150,6 +163,10 @@ export default {
       ],
 
       options3: [
+        {
+          value: "",
+          label: "",
+        },
         {
           value: "ExecTellerno01",
           label: "柜员1",
@@ -171,6 +188,7 @@ export default {
       checked: false,
 
       rules: {
+  
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
         id: [{ required: true, message: "请输入身份证号", trigger: "blur" }],
@@ -183,7 +201,17 @@ export default {
           { validator: validatePass2, trigger: "blur" },
         ],
       },
+   
+      // form123:{
+      //   setAccTitle: this.regForm.name,
+      //   setExecOrganno: 1,
+      //   setExecTellerno: this.regForm.ExecTellerno,
+      //   setBranchId: this.regForm.BranchId,
+      //   setpassword: this.regForm.password,
+      //   setRegion: this.regForm.Region
+      // },
     };
+    
   },
 
   methods: {

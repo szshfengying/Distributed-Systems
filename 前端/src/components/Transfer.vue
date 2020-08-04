@@ -70,13 +70,15 @@ export default {
   components: {},
   data() {
     return {
-      name:"张炜杰",
-      pay_name: "张炜杰",
-      pay_id: "123456789",
-      get_name: "",
-      get_id: "",
-      currtype: "人民币",
-      num: "",
+      name: "",
+      pay_name: "",
+      pay_id: "",
+      getform: {
+        get_name: "",
+        get_id: "",
+        currtype: "",
+        num: "",
+      },
     };
   },
   //监听属性 类似于data概念
@@ -86,15 +88,32 @@ export default {
   //方法集合
   methods: {
     Transfer() {
-      this.$alert("转账成功", "转账成功", {
-        confirmButtonText: "确定",
-        callback: (action) => {
-          this.$message({
-            type: "info",
-            message: `action: ${action}`,
+      this.$http({
+        url: this.$http.adornUrl("/sys/trans"),
+        method: "post",
+        data: this.$http.adornData({
+          pay_name: this.pay_name,
+          pay_id: this.pay_id,
+          get_name: this.getform.get_name,
+          get_id: this.getform.get_id,
+          currtype: this.getform.currtype,
+          num: this.getform.num,
+        }),
+      }).then(({ data }) => {
+        if (data.msg === "success") {
+          this.$alert("转账成功", "转账成功", {
+            confirmButtonText: "确定",
+            callback: (action) => {
+              this.$router.replace({ name: "Transfer" });
+            },
           });
-        },
+        } else {
+          this.$message.error(data.msg);
+        }
       });
+    },
+    getname() {
+      this.name = DetailsVue.name;
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
