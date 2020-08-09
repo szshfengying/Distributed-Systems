@@ -1,7 +1,7 @@
 <template>
   <div class="Test">
     <h1>欢迎使用中国工商银行网上银行</h1>
-    
+
     <el-form :model="regForm1" label-width="140px" ref="regForm1" v-if="code === false">
       <el-form-item label="请选择开户网点" :required="true">
         <el-select v-model="regForm1.Region" placeholder="地区">
@@ -22,7 +22,7 @@
           ></el-option>
         </el-select>
 
-         <el-select v-model="regForm1.ExecTellerno" placeholder="执行柜员">
+        <el-select v-model="regForm1.ExecTellerno" placeholder="执行柜员">
           <el-option
             v-for="item in options3"
             :key="item.label"
@@ -31,19 +31,23 @@
           ></el-option>
         </el-select>
         <br />
+        <br />
+
         <el-button
-          type="text"
+          type="primary"
           v-model="code"
           @click="getCode()"
           v-if="code === false"
           :disabled="chooseDB()"
-        >选择地区、网点和执行柜员后点击此处继续开户</el-button>
+        >继续开户</el-button>
+
+        <el-button @click="back">返回</el-button>
       </el-form-item>
     </el-form>
 
     <el-form :model="regForm2" :rules="rules" label-width="100px" ref="regForm2" v-if="code">
-      <br>
-      <el-form-item label="姓名" prop="name" >
+      <br />
+      <el-form-item label="姓名" prop="name">
         <el-input placeholder="请输入姓名" v-model="regForm2.name" @input="onInput()"></el-input>
       </el-form-item>
 
@@ -52,7 +56,7 @@
       </el-form-item>
       <el-form-item label="身份证号" prop="id">
         <el-input placeholder="请输入身份证号" v-model="regForm2.id" @input="onInput()"></el-input>
-      </el-form-item> -->
+      </el-form-item>-->
 
       <el-form-item label="密码" prop="password">
         <el-input
@@ -64,7 +68,7 @@
         ></el-input>
       </el-form-item>
 
-      <el-form-item label="确认密码" prop="checkPassword" >
+      <el-form-item label="确认密码" prop="checkPassword">
         <el-input
           placeholder="请再次输入密码"
           v-model="regForm2.checkPassword"
@@ -73,26 +77,28 @@
           @input="onInput()"
         ></el-input>
       </el-form-item>
-</el-form>
-<el-form v-if="code">
+    </el-form>
+    <el-form v-if="code">
       <el-form-item>
         <el-checkbox v-model="checked" label="免责声明" @input="onInput()">本人已知晓开户...风险提示,继续开户。</el-checkbox>
         <br />
         <el-button type="primary" @click="submit('regForm2')" v-if="checked">确认开户</el-button>
         <!-- <el-button type="primary" @click="submit2()" v-if="checked">确认开户</el-button> -->
         <el-button type="primary" v-else disabled>确认开户</el-button>
-        <el-button @click="resetForm('regForm2')">重置</el-button>
+        <el-button @click="resetForm('regForm1' )">重置</el-button>
         <el-button @click="back">返回</el-button>
       </el-form-item>
-  </el-form>
+    </el-form>
   </div>
 </template>
 
 <script>
+import branches from "../api/branchs"
 // import api from '../axios.js'   https://github.com/qhhsy/vue-koa2-login/blob/master/src/axios.js
 export default {
   data() {
     //自定义验证规则
+    let validate = (rule, value, callback) => {callback();};
     let validatePass1 = (rule, value, callback) => {
       // 6-16位, 数字, 字母, 字符至少包含两种, 同时不能包含中文和空格
       let reg = /(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^[^\s\u4e00-\u9fa5]{6,16}$/;
@@ -115,9 +121,9 @@ export default {
         Region: "",
         BranchId: "",
         ExecTellerno: "",
+        // id:"",
+        // phone:""
       },
-
-      code: false,
 
       regForm2: {
         name: "",
@@ -184,6 +190,7 @@ export default {
         },
       ],
 
+      code: false,
       checked: false,
 
       // chooseDB: this.$options.methods.chooseDB.bind(this)(),
@@ -208,7 +215,11 @@ export default {
   methods: {
     //判断是否选择了地区和网点号
     chooseDB() {
-      if (this.regForm1.Region != "" && this.regForm1.BranchId != "" && this.regForm1.ExecTellerno != "") {
+      if (
+        this.regForm1.Region != "" &&
+        this.regForm1.BranchId != "" &&
+        this.regForm1.ExecTellerno != ""
+      ) {
         return false;
       } else {
         return true;
@@ -316,9 +327,8 @@ h1 {
   color: brown;
 }
 
-.el-form{
+.el-form {
   width: 500px;
-  margin:0px auto
-
+  margin: 0px auto;
 }
 </style>

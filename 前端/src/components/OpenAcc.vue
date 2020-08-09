@@ -2,35 +2,28 @@
   <div class="openacc">
     <h1>欢迎使用中国工商银行网上银行</h1>
 
-    <el-form :model="regForm" :rules="rules" label-width="210px" ref="regForm">
-      <el-form-item label="请选择地区、网点和执行柜员" :required="true">
-        <el-select v-model="regForm.Region" placeholder="地区">
-          <el-option
-            v-for="item in options1"
-            :key="item.label"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-
-        <el-select v-model="regForm.BranchId" placeholder="网点">
-          <el-option
-            v-for="item in options2"
-            :key="item.label"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-
-      <el-select v-model="regForm.ExecTellerno" placeholder="执行柜员">
-        <el-option
-          v-for="item in options3"
-          :key="item.label"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
+    <el-form :model="regForm" :rules="rules" label-width="180px" ref="regForm">
+       <el-form-item label="请选择地区、网点" :required="true">
+        <el-cascader
+          placeholder="请选择执行地区、网点"
+          style="width: 350px;"
+          v-model="regForm.valueBranches"
+          :props="{value: 'value',label:'text'}"
+          :options="branches"
+        ></el-cascader>
       </el-form-item>
+
+      <el-form-item label="请选择执行柜员" :required="true">
+        <el-select style="width: 350px;" v-model="regForm.ExecTellerno" placeholder="请选择执行柜员">
+          <el-option
+            v-for="item in execTellerno"
+            :key="item.label"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
 
       <el-form-item label="姓名" prop="name">
         <el-input placeholder="请输入姓名:" v-model="regForm.name" @input="onInput()"></el-input>
@@ -74,14 +67,11 @@
         <el-button @click="back">返回</el-button>
       </el-form-item>
     </el-form>
-
   </div>
 </template>
 
 <script>
-// import api from '../axios.js'   https://github.com/qhhsy/vue-koa2-login/blob/master/src/axios.js
-
-
+import branches from "../api/branchs";
 
 export default {
   data() {
@@ -90,7 +80,7 @@ export default {
       // 6-16位, 数字, 字母, 字符至少包含两种, 同时不能包含中文和空格
       let reg = /(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^[^\s\u4e00-\u9fa5]{6,16}$/;
       if (!reg.test(value)) {
-        callback(new Error("密码长度需6-16位，且包含字母和字符"));
+        callback(new Error("密码长度需6-16位，数字，字母，字符至少包含两种"));
       } else {
         callback();
       }
@@ -110,63 +100,11 @@ export default {
         id: "",
         password: "",
         checkPassword: "",
-        Region: "",
-        BranchId: "",
         ExecTellerno: "",
+        valueBranches: "",
       },
-
-
-      options1: [
-        {
-          value: "",
-          label: "",
-        },
-        {
-          value: "DB01",
-          label: "华东",
-        },
-        {
-          value: "DB02",
-          label: "华西",
-        },
-        {
-          value: "DB03",
-          label: "华南",
-        },
-        {
-          value: "DB04",
-          label: "华北",
-        },
-      ],
-
-      options2: [
-        {
-          value: "",
-          label: "",
-        },
-        {
-          value: "Branch01",
-          label: "网点1",
-        },
-        {
-          value: "Branch02",
-          label: "网点2",
-        },
-        {
-          value: "Branch03",
-          label: "网点3",
-        },
-        {
-          value: "Branch04",
-          label: "网点4",
-        },
-      ],
-
-      options3: [
-        {
-          value: "",
-          label: "",
-        },
+      branches: branches,
+      execTellerno: [
         {
           value: "ExecTellerno01",
           label: "柜员1",
@@ -188,7 +126,6 @@ export default {
       checked: false,
 
       rules: {
-  
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
         id: [{ required: true, message: "请输入身份证号", trigger: "blur" }],
@@ -201,7 +138,7 @@ export default {
           { validator: validatePass2, trigger: "blur" },
         ],
       },
-   
+
       // form123:{
       //   setAccTitle: this.regForm.name,
       //   setExecOrganno: 1,
@@ -211,7 +148,6 @@ export default {
       //   setRegion: this.regForm.Region
       // },
     };
-    
   },
 
   methods: {
@@ -235,7 +171,6 @@ export default {
               this.$options.methods.back.bind(this)();
             },
           });
-
           // //验证通过
           // api.userRegister(this.regForm).then(({ data }) => {
           //   if (data.success) {
@@ -303,14 +238,4 @@ export default {
 
 
 <style>
-h1 {
-  font-weight: normal;
-  color: brown;
-}
-
-.el-form{
-  width: 500px;
-  margin:0px auto
-
-}
 </style>

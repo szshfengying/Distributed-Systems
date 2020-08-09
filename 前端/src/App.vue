@@ -20,4 +20,16 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+h1 {
+  font-weight: normal;
+  color: brown;
+}
+
+.el-form{
+  width: 500px;
+  margin:0px auto
+
+}
+
 </style>
