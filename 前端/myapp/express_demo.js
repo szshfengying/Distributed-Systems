@@ -24,7 +24,7 @@ next();
 //})
 
 app.post('/login', (req,res) =>{
-	if(req.query.username!="123456")
+	if(req.query.username!="1234567890123456")
 	{
 		console.log(req.query);
    		var response ={
@@ -33,7 +33,7 @@ app.post('/login', (req,res) =>{
 		}
   	 	res.send(JSON.stringify(response));
 	}
-	else if(req.query.password != "111")
+	else if(req.query.password != "asd123")
 	{
 		console.log(req.query);
    		var response ={
@@ -87,7 +87,7 @@ app.post('/openacc', (req,res) =>{
 	console.log(req.query);
 	   var response ={
 		"code":"0",
-		"msg":'123456'
+		"msg":'1234567890123456'
 	}
 	   res.send(JSON.stringify(response));	
 })

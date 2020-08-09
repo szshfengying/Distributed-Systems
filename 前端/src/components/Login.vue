@@ -27,13 +27,40 @@ import global from '@/api/global'
 export default {
   data() {
 let validateAcc = (rule, value, callback) => {
-      let reg = /^[\d]{16}$/;
-      if (!reg.test(value)) {
+      if (!checkCard(value)) {
         callback(new Error("账号不正确"));
       } else {
         callback();
       }
     };
+    // luhn算法校验位
+  function checkCard(cardNo){
+    if(isNaN(cardNo))
+        return false;
+    if(cardNo.length != 16){  //判断长度
+        return false;
+    }
+    var nums = cardNo.split("");
+    var sum = 0;
+    var index = 1;
+    for(var i = 0 ; i < nums.length; i++){
+        if((i+1)%2==0){
+            var tmp = Number(nums[nums.length-index])*2;
+            if(tmp >= 10){
+                var t = tmp+"".split("");
+                tmp = Number(t[0]) + Number(t[1]);
+            }
+            sum+=tmp;
+        }else{
+            sum+=Number(nums[nums.length-index]);
+        }
+        index ++;
+    }
+    if(sum%10 != 0){
+        return false;
+    }
+    return true;
+}
 
     return {
       dataForm: {
@@ -90,7 +117,11 @@ let validateAcc = (rule, value, callback) => {
     
     Test(){
       this.$router.push({ path: "/Test" });
-    }
+    },
+
+    
+
+
   },
 };
 

@@ -24,9 +24,9 @@ export default {
   components: {},
   data() {
       return {
-          name: "张炜杰",
-      accid: "123456789",
-      addr: "广东省汕头市濠江区",
+          name: "",
+      accid: "",
+      addr: "",
       currtype: "人民币",
       }
   },

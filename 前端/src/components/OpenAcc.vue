@@ -3,7 +3,7 @@
     <h1>欢迎使用中国工商银行网上银行</h1>
 
     <el-form :model="regForm" :rules="rules" label-width="180px" ref="regForm">
-       <el-form-item label="请选择地区、网点" :required="true">
+      <el-form-item label="请选择地区、网点" :required="true">
         <el-cascader
           placeholder="请选择执行地区、网点"
           style="width: 350px;"
@@ -23,7 +23,6 @@
           ></el-option>
         </el-select>
       </el-form-item>
-
 
       <el-form-item label="姓名" prop="name">
         <el-input placeholder="请输入姓名:" v-model="regForm.name" @input="onInput()"></el-input>
@@ -162,43 +161,85 @@ export default {
       this.$router.push({ path: "/" });
     },
     submit(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          console.log(this.regForm);
-          this.$alert("您的账号是", "开户成功", {
-            confirmButtonText: "前往登录",
-            callback: (action) => {
-              this.$options.methods.back.bind(this)();
-            },
-          });
-          // //验证通过
-          // api.userRegister(this.regForm).then(({ data }) => {
-          //   if (data.success) {
-          //   this.$alert("您的账号是", "开户成功", {
-          //       confirmButtonText: "前往登录",
-          //       callback: (action) => {
-          //         this.$options.methods.back.bind(this)();
-          //       },
-          //     });
-
-          // //     this.$message({
-          // //         type: 'success',
-          // //         message: '注册成功'
-          // //     });
-          //   } else {
-          //     this.$message({
-          //       type: "info",
-          //       message: "用户名已经存在",
-          //     });
-          //   }
-          // });
-        } else {
-          //验证不通过
-          console.log("error submit");
-          return false;
-        }
-      });
+      axios({
+        method: "post",
+        url: "http://localhost:8083/openacc",
+        headers: {
+          /*         'Content-type': 'application/x-www-form-urlencoded', */
+          "Content-Type": "application/json",
+        },
+        params: {
+          name: this.regForm.name,
+          phone: this.regForm.phone,
+          id: this.regForm.id,
+          password: this.regForm.password,
+          Region: this.regForm.Region,
+          // BranchId: this.regForm.BranchId,
+          // ExecTellerno: this.regForm.ExecTellerno,
+          valueBranches:this.regForm.valueBranches
+        },
+      })
+        .then((response) => {
+          if (response.data.code == "0") {
+            var msg = "您的账号是" + response.data.msg;
+            this.$alert(msg, "开户成功", {
+              confirmButtonText: "前往登录",
+              callback: (action) => {
+                this.$options.methods.back.bind(this)();
+              },
+            });
+          } else {
+            this.$alert(response.data.msg, "开户失败", {
+              confirmButtonText: "确定",
+              callback: (action) => {
+                this.$router.replace({ name: "Transfer" });
+              },
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
+
+    // submit(formName) {
+    //   this.$refs[formName].validate((valid) => {
+    //     if (valid) {
+    //       console.log(this.regForm);
+    //       this.$alert("您的账号是", "开户成功", {
+    //         confirmButtonText: "前往登录",
+    //         callback: (action) => {
+    //           this.$options.methods.back.bind(this)();
+    //         },
+    //       });
+    //       // //验证通过
+    //       // api.userRegister(this.regForm).then(({ data }) => {
+    //       //   if (data.success) {
+    //       //   this.$alert("您的账号是", "开户成功", {
+    //       //       confirmButtonText: "前往登录",
+    //       //       callback: (action) => {
+    //       //         this.$options.methods.back.bind(this)();
+    //       //       },
+    //       //     });
+
+    //       // //     this.$message({
+    //       // //         type: 'success',
+    //       // //         message: '注册成功'
+    //       // //     });
+    //       //   } else {
+    //       //     this.$message({
+    //       //       type: "info",
+    //       //       message: "用户名已经存在",
+    //       //     });
+    //       //   }
+    //       // });
+    //     } else {
+    //       //验证不通过
+    //       console.log("error submit");
+    //       return false;
+    //     }
+    //   });
+    // },
     // submit2() {
     //   // var postObj = {
     //   //   form: this.regForm,
