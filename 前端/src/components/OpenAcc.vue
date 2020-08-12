@@ -3,17 +3,17 @@
     <h1>欢迎使用中国工商银行网上银行</h1>
 
     <el-form :model="regForm" :rules="rules" label-width="180px" ref="regForm">
-      <el-form-item label="请选择地区、网点" :required="true">
+      <el-form-item label="请选择地区、网点" prop="valueBranches">
         <el-cascader
           placeholder="请选择执行地区、网点"
           style="width: 350px;"
           v-model="regForm.valueBranches"
-          :props="{value: 'value',label:'text'}"
+          :props="{value: 'text',label:'text'}"
           :options="branches"
         ></el-cascader>
       </el-form-item>
 
-      <el-form-item label="请选择执行柜员" :required="true">
+      <el-form-item label="请选择执行柜员" :required="true" prop="ExecTellerno">
         <el-select style="width: 350px;" v-model="regForm.ExecTellerno" placeholder="请选择执行柜员">
           <el-option
             v-for="item in execTellerno"
@@ -105,19 +105,19 @@ export default {
       branches: branches,
       execTellerno: [
         {
-          value: "ExecTellerno01",
+          value: 1,
           label: "柜员1",
         },
         {
-          value: "ExecTellerno02",
+          value: 2,
           label: "柜员2",
         },
         {
-          value: "ExecTellerno03",
+          value: 3,
           label: "柜员3",
         },
         {
-          value: "ExecTellerno04",
+          value: 4,
           label: "柜员4",
         },
       ],
@@ -125,6 +125,8 @@ export default {
       checked: false,
 
       rules: {
+        valueBranches:[{ required: true, message: "请选择网点", trigger: "blur" }],
+        ExecTellerno:[{ required: true, message: "请选择执行柜员", trigger: "blur" }],
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
         id: [{ required: true, message: "请输入身份证号", trigger: "blur" }],
@@ -160,28 +162,31 @@ export default {
     back() {
       this.$router.push({ path: "/" });
     },
+
     submit(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
       axios({
         method: "post",
-        url: "http://localhost:8083/openacc",
+        url: "http://localhost:8081/openacc",
         headers: {
           /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json",
         },
         params: {
-          name: this.regForm.name,
-          phone: this.regForm.phone,
-          id: this.regForm.id,
+          execOrganno: this.regForm.valueBranches[0]+this.regForm.valueBranches[1]+this.regForm.valueBranches[2],
+          execTellerno: this.regForm.ExecTellerno,
+          region: this.regForm.valueBranches[1],
+          branchId:this.regForm.valueBranches[2],
+          accTitle: this.regForm.name,
           password: this.regForm.password,
-          Region: this.regForm.Region,
-          // BranchId: this.regForm.BranchId,
-          // ExecTellerno: this.regForm.ExecTellerno,
-          valueBranches:this.regForm.valueBranches
+          // phone: this.regForm.phone,
+          // id: this.regForm.id,
         },
       })
         .then((response) => {
           if (response.data.code == "0") {
-            var msg = "您的账号是" + response.data.msg;
+            var msg = "您的账号是: " + response.data.msg;
             this.$alert(msg, "开户成功", {
               confirmButtonText: "前往登录",
               callback: (action) => {
@@ -199,58 +204,13 @@ export default {
         })
         .catch(function (error) {
           console.log(error);
-        });
+        })
+        }
+      })
     },
 
-    // submit(formName) {
-    //   this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //       console.log(this.regForm);
-    //       this.$alert("您的账号是", "开户成功", {
-    //         confirmButtonText: "前往登录",
-    //         callback: (action) => {
-    //           this.$options.methods.back.bind(this)();
-    //         },
-    //       });
-    //       // //验证通过
-    //       // api.userRegister(this.regForm).then(({ data }) => {
-    //       //   if (data.success) {
-    //       //   this.$alert("您的账号是", "开户成功", {
-    //       //       confirmButtonText: "前往登录",
-    //       //       callback: (action) => {
-    //       //         this.$options.methods.back.bind(this)();
-    //       //       },
-    //       //     });
-
-    //       // //     this.$message({
-    //       // //         type: 'success',
-    //       // //         message: '注册成功'
-    //       // //     });
-    //       //   } else {
-    //       //     this.$message({
-    //       //       type: "info",
-    //       //       message: "用户名已经存在",
-    //       //     });
-    //       //   }
-    //       // });
-    //     } else {
-    //       //验证不通过
-    //       console.log("error submit");
-    //       return false;
-    //     }
-    //   });
-    // },
-    // submit2() {
-    //   // var postObj = {
-    //   //   form: this.regForm,
-    //   //   // name: this.regForm.name,
-    //   //   // phone: this.regForm.phone,
-    //   //   // id: this.regForm.id,
-    //   //   // // options1: this.regForm.options1,
-    //   //   // // options2: this.regForm.options2,
-    //   //   // password: this.regForm.password,
-    //   // };
-    //   console.log(this.regForm);
+    
+ 
 
     //   this.$alert("您的账号是", "开户成功", {
     //     confirmButtonText: "前往登录",
@@ -260,18 +220,7 @@ export default {
     //   });
     // },
 
-    // openacc() {
-    //   this.$alert("您的帐号是", "开户成功", {
-    //     confirmButtonText: "确定",
-    //     callback: (action) => {
-    //       // this.$message({
-    //       //   type: "info",
-    //       //   message: `action: ${action}`,
-    //       // });
-    //       this.$router.push({ path: '/' })
-    //     },
-    //   });
-    // },
+
   },
 };
 </script>

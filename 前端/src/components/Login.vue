@@ -8,8 +8,8 @@
       @keyup.enter.native="dataFormSubmit()"
       status-icon
     >
-      <el-form-item prop="userName">
-        <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
+      <el-form-item prop="accid">
+        <el-input v-model="dataForm.accid" placeholder="帐号"></el-input>
       </el-form-item>
       <el-form-item prop="password">
         <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
@@ -37,7 +37,7 @@ let validateAcc = (rule, value, callback) => {
   function checkCard(cardNo){
     if(isNaN(cardNo))
         return false;
-    if(cardNo.length != 16){  //判断长度
+    if(cardNo.length != 16){  //判断长度  
         return false;
     }
     var nums = cardNo.split("");
@@ -64,11 +64,11 @@ let validateAcc = (rule, value, callback) => {
 
     return {
       dataForm: {
-        userName: "",
+        accid: "",
         password: "",
       },
       dataRule: {
-        userName: [
+        accid: [
           { required: true, message: "帐号不能为空", trigger: "blur" },
           { validator: validateAcc,trigger: "blur" }
         ],
@@ -93,13 +93,13 @@ let validateAcc = (rule, value, callback) => {
         },
         params: 
         {
-          'username': this.dataForm.userName,
-          'password': this.dataForm.password 
+          accid: this.dataForm.accid,
+          password: this.dataForm.password 
         }, 
       })
         .then((response) => {
             if (response.data.code == 0) { 
-            global.accid=this.dataForm.userName;
+            global.accid=this.dataForm.accid;
            this.$router.push({ path: "/Info" });
            }
             else{

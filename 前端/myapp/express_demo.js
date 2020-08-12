@@ -15,7 +15,7 @@ next();
 });
 
 //app.post('/login', (req,res) =>{
-//	console.log("账号",req.query.username);
+//	console.log("账号",req.query.accid);
 //	console.log("密码",req.query.password);
 //   var response ={
 //	"code":0
@@ -24,7 +24,7 @@ next();
 //})
 
 app.post('/login', (req,res) =>{
-	if(req.query.username!="1234567890123456")
+	if(req.query.accid!="1234567890123452")
 	{
 		console.log(req.query);
    		var response ={
@@ -87,12 +87,12 @@ app.post('/openacc', (req,res) =>{
 	console.log(req.query);
 	   var response ={
 		"code":"0",
-		"msg":'1234567890123456'
+		"msg":'1234567890123452'
 	}
 	   res.send(JSON.stringify(response));	
 })
 
-app.get('/login', function (req,res) {
+app.get('/login', (req,res) =>{
 	console.log(req);
    var response ={
 	"code":0

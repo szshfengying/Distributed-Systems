@@ -1,53 +1,141 @@
 <!--  -->
 <template>
-  <div class="Info">
-  <el-form ref="form" :model="form" label-width="80px">
+  <!-- <div class="Info">
+    <el-form ref="form" :model="form" label-width="80px">
+      <el-form-item label="卡号">
+        <el-input :disabled="true" v-model="form.accid"></el-input>
+      </el-form-item>
+      <el-form-item label="地址">
+        <el-input :disabled="true" v-model="form.addr"></el-input>
+      </el-form-item>
+      <el-form-item label="币种">
+        <el-input :disabled="true" v-model="form.currtype"></el-input>
+      </el-form-item>
+    </el-form>
+  </div> -->
+   <div class="Info">
+    <el-container style="height: 500px; border: 1px solid #eee">
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+        <el-menu :default-openeds="['1', '3']" router>
+          <el-submenu index="1">
+            <template slot="title">
+              <i class="el-icon-message"></i>主菜单
+            </template>
+            <el-menu-item-group>
+              <template slot="title">账户详情</template>
+              <el-menu-item index="/Info">账户信息</el-menu-item>
+              <el-menu-item index="/Balance">余额查询</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group title="功能模块">
+              <el-menu-item index="/Transfer">转账</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+
+      <el-container>
+        <el-header style="text-align: right; font-size: 12px">
+          <el-dropdown>
+            <i class="el-icon-setting" style="margin-right: 15px"></i>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>设置</el-dropdown-item>
+              <el-dropdown-item>关于我们</el-dropdown-item>
+              <el-dropdown-item index="/Transfer">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span>{{name}}</span>
+        </el-header>
+
+        <el-main>
+          <el-form ref="form" :model="infoform" label-width="80px">
             <el-form-item label="卡号">
               <el-input :disabled="true" v-model="accid"></el-input>
             </el-form-item>
             <el-form-item label="地址">
-              <el-input :disabled="true" v-model="addr"></el-input>
+              <el-input :disabled="true" v-model="infoform.addr"></el-input>
             </el-form-item>
             <el-form-item label="币种">
-              <el-input :disabled="true" v-model="currtype"></el-input>
+              <el-input :disabled="true" v-model="infoform.currtype"></el-input>
             </el-form-item>
           </el-form>
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script>
-//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-//例如：import 《组件名称》 from '《组件路径》';
-
+import global from '@/api/global'
 export default {
-  //import引入的组件需要注入到对象中才能使用
-  components: {},
   data() {
-      return {
-          name: "",
-      accid: "",
-      addr: "",
-      currtype: "人民币",
+    return {
+      name: global.name,
+      accid:global.accid,
+      infoform:{
+      addr:"" ,
+      currtype: "",
       }
+    };
   },
-  //监听属性 类似于data概念
-  computed: {},
-  //监控data中的数据变化
-  watch: {},
-  //方法集合
-  methods: {},
-  //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
-  //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {},
-  beforeCreate() {}, //生命周期 - 创建之前
-  beforeMount() {}, //生命周期 - 挂载之前
-  beforeUpdate() {}, //生命周期 - 更新之前
-  updated() {}, //生命周期 - 更新之后
-  beforeDestroy() {}, //生命周期 - 销毁之前
-  destroyed() {}, //生命周期 - 销毁完成
-  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+  created(){
+    this.getinfo()
+  },
+  methods:{
+      getinfo() {
+      axios({
+        method: 'post',
+        url: 'http://localhost:8081/info',
+        headers: {
+   /*         'Content-type': 'application/x-www-form-urlencoded', */
+          "Content-Type": "application/json", 
+        },
+        params: 
+        {
+          'accid': this.accid,
+        }, 
+      })
+        .then((response) => {
+            global.name=response.data.name
+            global.currtype=response.data.currtype
+            this.name=global.name
+            this.infoform.addr=response.data.addr
+            this.infoform.currtype=response.data.currtype
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  }
 };
+// //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
+// //例如：import 《组件名称》 from '《组件路径》';
+
+// export default {
+//   //import引入的组件需要注入到对象中才能使用
+//   components: {},
+//   data() {
+//     return {
+//       form: { name: "", accid: "", addr: "", currtype: "人民币" },
+//     };
+//   },
+//   //监听属性 类似于data概念
+//   computed: {},
+//   //监控data中的数据变化
+//   watch: {},
+//   //方法集合
+//   methods: {},
+//   //生命周期 - 创建完成（可以访问当前this实例）
+//   created() {},
+//   //生命周期 - 挂载完成（可以访问DOM元素）
+//   mounted() {},
+//   beforeCreate() {}, //生命周期 - 创建之前
+//   beforeMount() {}, //生命周期 - 挂载之前
+//   beforeUpdate() {}, //生命周期 - 更新之前
+//   updated() {}, //生命周期 - 更新之后
+//   beforeDestroy() {}, //生命周期 - 销毁之前
+//   destroyed() {}, //生命周期 - 销毁完成
+//   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+// };
 </script>
 <style scoped>
 </style>
