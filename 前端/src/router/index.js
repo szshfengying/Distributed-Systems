@@ -7,16 +7,11 @@ import Balance from '@/components/Balance'
 import Transfer from '@/components/Transfer'
 import Test from '@/components/Test'
 import Info from '@/components/Info'
-import tt from '@/components/tt'
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/tt',
-      name: 'tt',
-      component: tt
-  },
     {
       path: '/Test',
       name: 'Test',

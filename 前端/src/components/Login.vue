@@ -86,20 +86,28 @@ let validateAcc = (rule, value, callback) => {
       // 获取远端图片
       axios({
         method: 'post',
-        url: 'http://localhost:8081/login',
-         url: 'http://localhost:25001/login',
+        // url: 'http://localhost:8081/login',
+        //  url: 'http://localhost:25001/login',
+        url:'http://127.0.0.1:25008/login/AccLogin/login',
         headers: {
    /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json", 
         },
-        params: 
-        {
+        transformRequest: [
+              function (data) {
+                data = JSON.stringify(data);
+                return data;
+              },
+            ],
+        // params: {
+        data: {
           accid: this.dataForm.accid,
           password: this.dataForm.password 
         }, 
       })
         .then((response) => {
-            if (response.data.code == 0) { 
+            // if (response.data.code == 0) { 
+              if (response.data.msg == "登录成功") { 
             global.accid=this.dataForm.accid;
            this.$router.push({ path: "/Info" });
            }
