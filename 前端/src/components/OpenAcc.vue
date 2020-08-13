@@ -125,29 +125,24 @@ export default {
       checked: false,
 
       rules: {
-        valueBranches:[{ required: true, message: "请选择网点", trigger: "blur" }],
-        ExecTellerno:[{ required: true, message: "请选择执行柜员", trigger: "blur" }],
+        valueBranches: [
+          { required: true, message: "请选择网点", trigger: "blur" },
+        ],
+        ExecTellerno: [
+          { required: true, message: "请选择执行柜员", trigger: "blur" },
+        ],
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
         id: [{ required: true, message: "请输入身份证号", trigger: "blur" }],
-        password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-          { validator: validatePass1, trigger: "blur" },
-        ],
-        checkPassword: [
-          { required: true, message: "请再次输入密码", trigger: "blur" },
-          { validator: validatePass2, trigger: "blur" },
-        ],
+        // password: [
+        //   { required: true, message: "请输入密码", trigger: "blur" },
+        //   { validator: validatePass1, trigger: "blur" },
+        // ],
+        // checkPassword: [
+        //   { required: true, message: "请再次输入密码", trigger: "blur" },
+        //   { validator: validatePass2, trigger: "blur" },
+        // ],
       },
-
-      // form123:{
-      //   setAccTitle: this.regForm.name,
-      //   setExecOrganno: 1,
-      //   setExecTellerno: this.regForm.ExecTellerno,
-      //   setBranchId: this.regForm.BranchId,
-      //   setpassword: this.regForm.password,
-      //   setRegion: this.regForm.Region
-      // },
     };
   },
 
@@ -166,51 +161,62 @@ export default {
     submit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-      axios({
-        method: "post",
-        url: "http://localhost:8081/openacc",
-        headers: {
-          /*         'Content-type': 'application/x-www-form-urlencoded', */
-          "Content-Type": "application/json",
-        },
-        params: {
-          execOrganno: this.regForm.valueBranches[0]+this.regForm.valueBranches[1]+this.regForm.valueBranches[2],
-          execTellerno: this.regForm.ExecTellerno,
-          region: this.regForm.valueBranches[1],
-          branchId:this.regForm.valueBranches[2],
-          accTitle: this.regForm.name,
-          password: this.regForm.password,
-          // phone: this.regForm.phone,
-          // id: this.regForm.id,
-        },
-      })
-        .then((response) => {
-          if (response.data.code == "0") {
-            var msg = "您的账号是: " + response.data.msg;
-            this.$alert(msg, "开户成功", {
-              confirmButtonText: "前往登录",
-              callback: (action) => {
-                this.$options.methods.back.bind(this)();
+          axios({
+            method: "post",
+            // url: "http://localhost:8081/openacc",
+            // url:"http://127.0.0.1:25001/accOpen/register",
+            url:"http://127.0.0.1:25008/open/accOpen/register",
+            headers: {
+              /*         'Content-type': 'application/x-www-form-urlencoded', */
+              "Content-Type": "application/json",
+            },
+            transformRequest: [
+              function (data) {
+                data = JSON.stringify(data);
+                return data;
               },
+            ],
+            data: {
+              // params: {
+              "execOrganno":
+                this.regForm.valueBranches[0] +
+                this.regForm.valueBranches[1] +
+                this.regForm.valueBranches[2],
+              "execTellerno": this.regForm.ExecTellerno,
+              "region": this.regForm.valueBranches[1],
+              "branchId": this.regForm.valueBranches[2],
+              "accTitle": this.regForm.name,
+              "password": this.regForm.password,
+              // phone: this.regForm.phone,
+              // id: this.regForm.id,
+            },
+          })
+            .then((response) => {
+              if (response.data.code == "0") {
+                // console.log(request.body)
+                var msg = "您的账号是: " + response.data.accid ;
+                this.$alert(msg, "开户成功", {
+                  confirmButtonText: "前往登录",
+                  callback: (action) => {
+                    this.$options.methods.back.bind(this)();
+                  },
+                });
+              } else {
+                this.$alert(response.data.msg, "开户失败", {
+                  confirmButtonText: "确定",
+                  callback: (action) => {
+                    // this.$router.replace({ name: "Transfer" });
+                    this.$options.methods.back.bind(this)();
+                  },
+                });
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
             });
-          } else {
-            this.$alert(response.data.msg, "开户失败", {
-              confirmButtonText: "确定",
-              callback: (action) => {
-                this.$router.replace({ name: "Transfer" });
-              },
-            });
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
         }
-      })
+      });
     },
-
-    
- 
 
     //   this.$alert("您的账号是", "开户成功", {
     //     confirmButtonText: "前往登录",
@@ -219,8 +225,6 @@ export default {
     //     },
     //   });
     // },
-
-
   },
 };
 </script>

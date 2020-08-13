@@ -87,6 +87,7 @@ let validateAcc = (rule, value, callback) => {
       axios({
         method: 'post',
         url: 'http://localhost:8081/login',
+         url: 'http://localhost:25001/login',
         headers: {
    /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json", 

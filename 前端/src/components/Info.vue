@@ -84,7 +84,8 @@ export default {
       getinfo() {
       axios({
         method: 'post',
-        url: 'http://localhost:8081/info',
+        // url: 'http://localhost:8081/info',
+        url: 'http://localhost:25001/info',
         headers: {
    /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json", 

@@ -8,7 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 import axios from 'axios';
 
-axios.defaults.baseURL='http://localhost:8081/'
+
+// axios.defaults.baseURL='http://localhost:8081/'
+axios.defaults.baseURL='http://localhost:25001/'
 Vue.prototype.axios = axios
 // Vue.prototype.$axios = axios    //全局注册，使用方法为:this.$axios
 // Vue.prototype.qs = qs           //全局注册，使用方法为:this.qs
