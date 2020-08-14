@@ -42,18 +42,18 @@
               <el-input :disabled="true" v-model="pay_id"></el-input>
             </el-form-item>
             <el-form-item label="收款户名">
-              <el-input v-model="get_name"></el-input>
+              <el-input v-model="getform.get_name"></el-input>
             </el-form-item>
             <el-form-item label="收款帐号">
-              <el-input v-model="get_id"></el-input>
+              <el-input v-model="getform.get_id"></el-input>
             </el-form-item>
             <el-form-item label="币种">
-              <el-input :disabled="true" v-model="currtype"></el-input>
+              <el-input :disabled="true" v-model="getform.currtype"></el-input>
             </el-form-item>
-            <el-form-item label="转载金额">
-              <el-input v-model="num"></el-input>
+            <el-form-item label="转账金额">
+              <el-input v-model="getform.num"></el-input>
             </el-form-item>
-            <el-button type="primary" @click="Transfer">转账</el-button>
+            <el-button type="primary" @click="Transfer()">转账</el-button>
           </el-form>
         </el-main>
       </el-container>
@@ -64,19 +64,20 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-
+import global from '@/api/global'
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: {},
   data() {
     return {
-      name: "",
-      pay_name: "",
-      pay_id: "",
+      name: global.name,
+      time:"",
+      pay_name: global.name,
+      pay_id: global.accid,
       getform: {
         get_name: "",
         get_id: "",
-        currtype: "",
+        currtype:"",
         num: "",
       },
     };
@@ -87,21 +88,44 @@ export default {
   watch: {},
   //方法集合
   methods: {
-    Transfer() {
-      this.$http({
-        url: this.$http.adornUrl("/sys/trans"),
+    addDate() {
+      var date = new Date();
+		  var seperator1 = "-";
+		  var year = date.getFullYear();
+		  var month = date.getMonth() + 1;
+		  var strDate = date.getDate();
+		  if (month >= 1 && month <= 9) {
+		    	month = "0" + month;
+		  }
+		  if (strDate >= 0 && strDate <= 9) {
+		      strDate = "0" + strDate;
+		  }
+		  this.time= year + "-" + month + "-" + strDate;
+    },
+    Transfer(){
+       axios({
         method: "post",
-        data: this.$http.adornData({
-          pay_name: this.pay_name,
-          pay_id: this.pay_id,
-          get_name: this.getform.get_name,
-          get_id: this.getform.get_id,
-          currtype: this.getform.currtype,
-          num: this.getform.num,
-        }),
-      }).then(({ data }) => {
-        if (data.msg === "success") {
-          this.$alert("转账成功", "转账成功", {
+        url: "http://127.0.0.1:25008/transfer/transfer/transfer",
+        headers: {
+   /*         'Content-type': 'application/x-www-form-urlencoded', */
+          "Content-Type": "application/json", 
+        },
+        data:JSON.stringify( 
+        {
+          "currType":global.currtype,
+          "execOrganno":"123",
+          "execTellerno":"123",
+           "accIdFrom":this.pay_id,
+           "accTitleFrom":this.pay_name,
+           "accIdTo":this.getform.get_id,
+           "accTitleTo":this.getform.get_name,
+           "amount":this.getform.num,
+           "execDate":this.time
+        }), 
+      })
+      .then((response) => {
+        if (response.data.msg === "success") {
+          this.$alert(response.data.转账情况, "转账成功", {
             confirmButtonText: "确定",
             callback: (action) => {
               this.$router.replace({ name: "Transfer" });
@@ -110,14 +134,20 @@ export default {
         } else {
           this.$message.error(data.msg);
         }
-      });
+      }); 
     },
-    getname() {
-      this.name = DetailsVue.name;
+    getcurr() {
+      if(global.currtype==1)
+        this.getform.currtype="人民币";
+      else
+        this.getform.currtype="其他币种";
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
+  created() {
+    this.getcurr(),
+    this.addDate() 
+  },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},
   beforeCreate() {}, //生命周期 - 创建之前

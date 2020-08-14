@@ -71,7 +71,7 @@
 
 <script>
 import branches from "../api/branchs";
-
+import { Loading } from 'element-ui'
 export default {
   data() {
     //自定义验证规则
@@ -161,6 +161,33 @@ export default {
     submit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+
+      // 添加请求拦截器
+    axios.interceptors.request.use(function (config) {
+    Loading.service({
+    lock: true,
+    text: '加载中……',
+    background: 'rgba(0, 0, 0, 0.7)'
+  })
+      return config;
+     }, function (error) {
+       console.log("req error")
+        // 对请求错误做些什么
+        return Promise.reject(error);
+    });
+
+
+ // 添加响应拦截器
+axios.interceptors.response.use(function (response) {
+   Loading.service().close();
+    // 对响应数据做点什么
+    return response;
+  }, function (error) {
+    Loading.service().close();
+    // 对响应错误做点什么
+    return Promise.reject(error);
+  });
+
           axios({
             method: "post",
             // url: "http://localhost:8081/openacc",
@@ -182,18 +209,17 @@ export default {
                 this.regForm.valueBranches[0] +
                 this.regForm.valueBranches[1] +
                 this.regForm.valueBranches[2],
-              "execTellerno": this.regForm.ExecTellerno,
-              "region": this.regForm.valueBranches[1],
-              "branchId": this.regForm.valueBranches[2],
-              "accTitle": this.regForm.name,
-              "password": this.regForm.password,
+              execTellerno: this.regForm.ExecTellerno,
+              region: this.regForm.valueBranches[1],
+              branchId: this.regForm.valueBranches[2],
+              accTitle: this.regForm.name,
+              password: this.regForm.password,
               // phone: this.regForm.phone,
               // id: this.regForm.id,
             },
           })
             .then((response) => {
               if (response.data.code == "0") {
-                // console.log(request.body)
                 var msg = "您的账号是: " + response.data.accid ;
                 this.$alert(msg, "开户成功", {
                   confirmButtonText: "前往登录",

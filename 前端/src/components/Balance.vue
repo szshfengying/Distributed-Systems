@@ -36,10 +36,10 @@
         <el-main>
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="余额">
-              <el-input :disabled="true" v-model="balance"></el-input>
+              <el-input :disabled="true" v-model="balform.balance"></el-input>
             </el-form-item>
             <el-form-item label="币种">
-              <el-input :disabled="true" v-model="currtype"></el-input>
+              <el-input :disabled="true" v-model="balform.currtype"></el-input>
             </el-form-item>
           </el-form>
         </el-main>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import DetailsVue from './Details.vue';
+import global from '@/api/global'
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 
@@ -58,7 +58,8 @@ export default {
   components: {},
   data() {
     return {
-      name,
+      time:"",
+      name:global.name,
       balform:{
       balance: "",
       currtype: "",
@@ -71,23 +72,56 @@ export default {
   watch: {},
   //方法集合
   methods: {
+    addDate() {
+         var date = new Date();
+		      var seperator1 = "-";
+		      var year = date.getFullYear();
+		      var month = date.getMonth() + 1;
+		      var strDate = date.getDate();
+		
+		      if (month >= 1 && month <= 9) {
+		        	month = "0" + month;
+		      }
+		      if (strDate >= 0 && strDate <= 9) {
+		      	  strDate = "0" + strDate;
+		      }
+		      this.time= year + "-" + month + "-" + strDate;
+      },
     getbal(){
-          this.$http({
-            url: this.$http.adornUrl("/sys/bal"),
-            method: "get",
-          }).then(({ data }) => {
-            this.balform.balance=data.balance
-            this.balform.currtype=data.currtype
-          }); 
+              axios({
+        method: 'post',
+        url: 'http://127.0.0.1:25008/info/query/info',
+        headers: {
+   /*         'Content-type': 'application/x-www-form-urlencoded', */
+          "Content-Type": "application/json", 
+        },
+        data:JSON.stringify( 
+        {
+          'currType':"1",
+          'execOrganno':"123",
+          "execTellerno":"123",
+          "txnCode":"1",
+          'accId':800000200000076,
+          "txnDate":this.time
+        }), 
+      })
+        .then((response) => {
+          this.name=global.name
+            this.balform.balance=(JSON.parse(response.data.账号信息)).curBalance
+              if(global.currtype==1)
+              this.balform.currtype="人民币";
+            else
+              this.balform.currtype="其他币种";
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-    getname(){ 
-      this.name=DetailsVue.name
-    }
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {
-    this.getbal(),
-    getname()
+    this.addDate() 
+    this.getbal()
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},

@@ -12,8 +12,8 @@
         <el-input :disabled="true" v-model="form.currtype"></el-input>
       </el-form-item>
     </el-form>
-  </div> -->
-   <div class="Info">
+  </div>-->
+  <div class="Info">
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <el-menu :default-openeds="['1', '3']" router>
@@ -69,7 +69,8 @@ import global from '@/api/global'
 export default {
   data() {
     return {
-      name: global.name,
+      time:"",
+      name: "",
       accid:global.accid,
       infoform:{
       addr:"" ,
@@ -78,29 +79,53 @@ export default {
     };
   },
   created(){
+    this.addDate()
     this.getinfo()
   },
   methods:{
+      addDate() {
+         var date = new Date();
+		      var seperator1 = "-";
+		      var year = date.getFullYear();
+		      var month = date.getMonth() + 1;
+		      var strDate = date.getDate();
+		
+		      if (month >= 1 && month <= 9) {
+		        	month = "0" + month;
+		      }
+		      if (strDate >= 0 && strDate <= 9) {
+		      	  strDate = "0" + strDate;
+		      }
+		      this.time= year + "-" + month + "-" + strDate;
+      },
       getinfo() {
       axios({
         method: 'post',
-        // url: 'http://localhost:8081/info',
-        url: 'http://localhost:25001/info',
+        url: 'http://127.0.0.1:25008/info/query/info',
         headers: {
    /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json", 
         },
-        params: 
+        data:JSON.stringify( 
         {
-          'accid': this.accid,
-        }, 
+          'currType':"1",
+          'execOrganno':"123",
+          "execTellerno":"123",
+          "txnCode":"1",
+          'accId':800000200000076,
+          "txnDate":this.time
+        }), 
       })
         .then((response) => {
-            global.name=response.data.name
-            global.currtype=response.data.currtype
+            this.accid=global.accid
+            global.name=(JSON.parse(response.data.账号信息)).accTitle
+            global.currtype=(JSON.parse(response.data.账号信息)).currType
             this.name=global.name
-            this.infoform.addr=response.data.addr
-            this.infoform.currtype=response.data.currtype
+            this.infoform.addr=(JSON.parse(response.data.账号信息)).regionId
+            if(global.currtype==1)
+              this.infoform.currtype="人民币";
+            else
+              this.infoform.currtype="其他币种";
         })
         .catch(function (error) {
           console.log(error);
@@ -139,4 +164,17 @@ export default {
 // };
 </script>
 <style scoped>
+h1 {
+  font-weight: normal;
+  color: brown;
+}
+.el-header {
+  background-color: #b3c0d1;
+  color: #333;
+  line-height: 60px;
+}
+
+.el-aside {
+  color: #333;
+}
 </style>

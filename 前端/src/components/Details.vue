@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import GLOBAL from '@/api/global'
 export default {
   data() {
     return {
@@ -74,7 +75,10 @@ export default {
             this.name=data.name
             this.infoform.accid=data.accid
             this.infoform.addr=data.addr
-            this.infoform.currtype=data.currtype
+            if(data.currtype==1)
+              this.infoform.currtype="人民币";
+            else
+              this.infoform.currtype="其他币种";
           });
     },
   }

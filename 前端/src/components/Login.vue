@@ -1,5 +1,5 @@
 <template>
-<div class="hello">
+<div class="login">
     <h1>欢迎使用中国工商银行网上银行</h1>
     <el-form
       :model="dataForm"
@@ -15,15 +15,15 @@
         <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button class="login-btn-submit" type="primary" @click="login()">登录</el-button>
+        <el-button class="login-btn-submit" type="primary" @click="login('dataForm')">登录</el-button>
         <el-button class="login-btn-submit"  @click="openacc()">开户</el-button>
-        <el-button @click="Test()">开户Test</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
 import global from '@/api/global'
+import { Loading } from 'element-ui'
 export default {
   data() {
 let validateAcc = (rule, value, callback) => {
@@ -79,18 +79,44 @@ let validateAcc = (rule, value, callback) => {
     };
   },
   methods: {
+
+    
     openacc() {
       this.$router.push({ path: "/OpenAcc" });
     },
-    login() {
-      // 获取远端图片
+    login(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+
+      // 添加请求拦截器
+    axios.interceptors.request.use(function (config) {
+    Loading.service({
+    lock: true,
+    text: '加载中……',
+    background: 'rgba(0, 0, 0, 0.7)'
+  })
+      return config;
+     }, function (error) {
+       console.log("req error")
+        // 对请求错误做些什么
+        return Promise.reject(error);
+    });
+
+ // 添加响应拦截器
+axios.interceptors.response.use(function (response) {
+   Loading.service().close();
+    // 对响应数据做点什么
+    return response;
+  }, function (error) {
+    Loading.service().close();
+    // 对响应错误做点什么
+    return Promise.reject(error);
+  });
+
       axios({
         method: 'post',
-        // url: 'http://localhost:8081/login',
-        //  url: 'http://localhost:25001/login',
         url:'http://127.0.0.1:25008/login/AccLogin/login',
         headers: {
-   /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json", 
         },
         transformRequest: [
@@ -99,7 +125,7 @@ let validateAcc = (rule, value, callback) => {
                 return data;
               },
             ],
-        // params: {
+     
         data: {
           accid: this.dataForm.accid,
           password: this.dataForm.password 
@@ -118,14 +144,15 @@ let validateAcc = (rule, value, callback) => {
         .catch(function (error) {
           console.log(error);
         });
+
+
+        };
+        })
+
     },
 
     onInput() {
       this.$forceUpdate();
-    },
-    
-    Test(){
-      this.$router.push({ path: "/Test" });
     },
 
     
