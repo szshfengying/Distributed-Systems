@@ -7,8 +7,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
 
-import Menu from'./Menu';
-import Test from '@/components/Test'
 
 axios.defaults.baseURL='http://localhost:25001/'
 Vue.prototype.axios = axios

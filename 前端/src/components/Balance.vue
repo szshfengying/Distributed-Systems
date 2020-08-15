@@ -69,7 +69,7 @@ export default {
           'execOrganno':"123",
           "execTellerno":"123",
           "txnCode":"1",
-          'accId':800000200000076,
+          'accId':global.accid,
           "txnDate":this.time
         }), 
       })
