@@ -1,93 +1,88 @@
-<!--  -->
 <template>
- 
   <div class="Info">
-
-        <el-main>
-          <el-form ref="form" :model="infoform" label-width="80px">
-            <el-form-item label="卡号">
-              <el-input :disabled="true" v-model="accid"></el-input>
-            </el-form-item>
-            <el-form-item label="地址">
-              <el-input :disabled="true" v-model="infoform.addr"></el-input>
-            </el-form-item>
-            <el-form-item label="币种">
-              <el-input :disabled="true" v-model="infoform.currtype"></el-input>
-            </el-form-item>
-          </el-form>
-        </el-main>
-
+    <h1>{{name}}</h1>
+    <el-main>
+      <el-form ref="form" :model="infoform" label-width="80px">
+        <el-form-item label="卡号">
+          <el-input :disabled="true" v-model="accid"></el-input>
+        </el-form-item>
+        <el-form-item label="地址">
+          <el-input :disabled="true" v-model="infoform.addr"></el-input>
+        </el-form-item>
+        <el-form-item label="币种">
+          <el-input :disabled="true" v-model="infoform.currtype"></el-input>
+        </el-form-item>
+      </el-form>
+    </el-main>
   </div>
 </template>
 
 <script>
-import global from '@/api/global'
+import global from "@/api/global";
 export default {
   data() {
     return {
-      time:"",
-      name: "",
-      accid:global.accid,
-      infoform:{
-      addr:"" ,
-      currtype: "",
-      }
+      time: "",
+      name: global.name,
+      accid: global.accid,
+      infoform: {
+        addr: "",
+        currtype: "",
+      },
     };
   },
-  created(){
-    this.addDate()
-    this.getinfo()
+  created() {
+    this.addDate();
+    this.getinfo();
   },
-  methods:{
-      addDate() {
-         var date = new Date();
-		      var seperator1 = "-";
-		      var year = date.getFullYear();
-		      var month = date.getMonth() + 1;
-		      var strDate = date.getDate();
-		
-		      if (month >= 1 && month <= 9) {
-		        	month = "0" + month;
-		      }
-		      if (strDate >= 0 && strDate <= 9) {
-		      	  strDate = "0" + strDate;
-		      }
-		      this.time= year + "-" + month + "-" + strDate;
-      },
-      getinfo() {
+  methods: {
+    addDate() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      this.time = year + "-" + month + "-" + strDate;
+    },
+    getinfo() {
       axios({
-        method: 'post',
-        url: 'http://127.0.0.1:25008/info/query/info',
+        method: "post",
+        url: "http://127.0.0.1:25008/info/query/info",
         headers: {
-   /*         'Content-type': 'application/x-www-form-urlencoded', */
-          "Content-Type": "application/json", 
+          /*         'Content-type': 'application/x-www-form-urlencoded', */
+          "Content-Type": "application/json",
         },
-        data:JSON.stringify( 
-        {
-          'currType':"1",
-          'execOrganno':"123",
-          "execTellerno":"123",
-          "txnCode":"1",
-          'accId':global.accid,
-          "txnDate":this.time
-        }), 
+        data: JSON.stringify({
+          currType: "1",
+          execOrganno: "123",
+          execTellerno: "123",
+          txnCode: "1",
+          accId: global.accid,
+          txnDate: this.time,
+        }),
       })
         .then((response) => {
-            this.accid=global.accid
-            global.name=(JSON.parse(response.data.账号信息)).accTitle
-            global.currtype=(JSON.parse(response.data.账号信息)).currType
-            this.name=global.name
-            this.infoform.addr=(JSON.parse(response.data.账号信息)).regionId
-            if(global.currtype==1)
-              this.infoform.currtype="人民币";
-            else
-              this.infoform.currtype="其他币种";
+          this.accid = global.accid;
+          global.name = JSON.parse(response.data.账号信息).accTitle;
+          global.currtype = JSON.parse(response.data.账号信息).currType;
+          this.name = global.name;
+          this.infoform.addr = JSON.parse(response.data.账号信息).regionId;
+          if (global.currtype == 1) this.infoform.currtype = "人民币";
+          else this.infoform.currtype = "其他币种";
+          console.log(global.name, global.currtype);
         })
         .catch(function (error) {
           console.log(error);
         });
     },
-  }
+  },
 };
 // //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // //例如：import 《组件名称》 from '《组件路径》';

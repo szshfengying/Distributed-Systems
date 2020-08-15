@@ -70,7 +70,7 @@ let validateAcc = (rule, value, callback) => {
       dataRule: {
         accid: [
           { required: true, message: "帐号不能为空", trigger: "blur" },
-          { validator: validateAcc,trigger: "blur" }
+          // { validator: validateAcc,trigger: "blur" }
         ],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" },
