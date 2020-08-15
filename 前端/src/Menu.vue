@@ -1,10 +1,6 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png" />
-    <el-container
-      style="height: 500px; border: 1px solid #eee"
-      v-if="!(path==='/'||path==='/OpenAcc')"
-    >
+<div id="Menu">
+  <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <el-menu :default-openeds="['1', '3']" router>
           <el-submenu index="1">
@@ -35,67 +31,40 @@
           </el-dropdown>
           <span>{{name}}</span>
         </el-header>
+
         <el-main>
-          <router-view />
-        </el-main>
+          
+        <router-view/>
+      </el-main>
       </el-container>
     </el-container>
-
-    <router-view v-if="(path==='/'||path==='/OpenAcc')" />
-
   </div>
 </template>
 
 <script>
-import global from '@/api/global'
 export default {
-  name: "App",
-
-  data() {
-    return {
-      name: global.name,
-      path: "",
-    };
-  },
-
-  methods: {
+  name: 'Menu',
+  methods:{
     back() {
       this.$router.push({ path: "/" });
-    },
-  },
+    },},
 
-  mounted() {
-    this.path = this.$route.path;
-  },
 
-  watch: {
-    $route(to, from) {
-      this.path = to.path;
-    },
-  },
-};
+//     router:[
+//     { path: '/Test',
+//       name: 'Test',
+//       component: Test
+//   },],
+
+
+}
 </script>
 
 <style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
 h1 {
   font-weight: normal;
   color: brown;
 }
-
-.el-form {
-  width: 500px;
-  margin: 0px auto;
-}
-
 .el-header {
   background-color: #b3c0d1;
   color: #333;

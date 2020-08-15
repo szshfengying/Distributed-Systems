@@ -155,9 +155,6 @@ axios.interceptors.response.use(function (response) {
       this.$forceUpdate();
     },
 
-    
-
-
   },
 };
 
