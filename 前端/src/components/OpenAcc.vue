@@ -13,7 +13,7 @@
         ></el-cascader>
       </el-form-item>
 
-      <el-form-item label="请选择执行柜员" :required="true" prop="ExecTellerno">
+      <!-- <el-form-item label="请选择执行柜员" :required="true" prop="ExecTellerno">
         <el-select style="width: 350px;" v-model="regForm.ExecTellerno" placeholder="请选择执行柜员">
           <el-option
             v-for="item in execTellerno"
@@ -22,7 +22,7 @@
             :value="item.value"
           ></el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item label="姓名" prop="name">
         <el-input placeholder="请输入姓名:" v-model="regForm.name" @input="onInput()"></el-input>
@@ -60,7 +60,6 @@
         <el-checkbox v-model="checked" label="免责声明" @input="onInput()">本人已知晓开户...风险提示,继续开户。</el-checkbox>
         <br />
         <el-button type="primary" @click="submit('regForm')" v-if="checked">确认开户</el-button>
-        <!-- <el-button type="primary" @click="submit2()" v-if="checked">确认开户</el-button> -->
         <el-button type="primary" v-else disabled>确认开户</el-button>
         <el-button @click="resetForm('regForm')">重置</el-button>
         <el-button @click="back">返回</el-button>
@@ -190,8 +189,6 @@ axios.interceptors.response.use(function (response) {
 
           axios({
             method: "post",
-            // url: "http://localhost:8081/openacc",
-            // url:"http://127.0.0.1:25001/accOpen/register",
             url:"http://127.0.0.1:25008/open/accOpen/register",
             headers: {
               /*         'Content-type': 'application/x-www-form-urlencoded', */
@@ -209,7 +206,8 @@ axios.interceptors.response.use(function (response) {
                 this.regForm.valueBranches[0] +
                 this.regForm.valueBranches[1] +
                 this.regForm.valueBranches[2],
-              execTellerno: this.regForm.ExecTellerno,
+              // execTellerno: this.regForm.ExecTellerno,
+              execTellerno: 1,
               region: this.regForm.valueBranches[1],
               branchId: this.regForm.valueBranches[2],
               accTitle: this.regForm.name,
@@ -231,7 +229,6 @@ axios.interceptors.response.use(function (response) {
                 this.$alert(response.data.msg, "开户失败", {
                   confirmButtonText: "确定",
                   callback: (action) => {
-                    // this.$router.replace({ name: "Transfer" });
                     this.$options.methods.back.bind(this)();
                   },
                 });
@@ -243,14 +240,6 @@ axios.interceptors.response.use(function (response) {
         }
       });
     },
-
-    //   this.$alert("您的账号是", "开户成功", {
-    //     confirmButtonText: "前往登录",
-    //     callback: (action) => {
-    //       this.$options.methods.back.bind(this)();
-    //     },
-    //   });
-    // },
   },
 };
 </script>

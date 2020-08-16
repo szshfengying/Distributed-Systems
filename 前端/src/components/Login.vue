@@ -70,7 +70,7 @@ let validateAcc = (rule, value, callback) => {
       dataRule: {
         accid: [
           { required: true, message: "帐号不能为空", trigger: "blur" },
-          // { validator: validateAcc,trigger: "blur" }
+          // { validator: validateAcc, trigger: "blur" }
         ],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" },
@@ -79,8 +79,6 @@ let validateAcc = (rule, value, callback) => {
     };
   },
   methods: {
-
-    
     openacc() {
       this.$router.push({ path: "/OpenAcc" });
     },
@@ -132,7 +130,6 @@ axios.interceptors.response.use(function (response) {
         }, 
       })
         .then((response) => {
-            // if (response.data.code == 0) { 
               if (response.data.msg == "登录成功") { 
             global.accid=this.dataForm.accid;
            this.$router.push({ path: "/Info" });

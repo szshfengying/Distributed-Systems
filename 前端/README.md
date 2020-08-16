@@ -1,21 +1,18 @@
-# vue
+# 金融分布式系统前端部分
 
-> A Vue.js project
+> 这是一个使用Vue框架搭建的前端页面
 
-## Build Setup
+### 启动方法
 
 ``` bash
-# install dependencies
+# 安装依赖
 npm install
 
-# serve with hot reload at localhost:8080
+# 启动服务：localhost:8080
 npm run dev
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+### 开户和登录功能Demo：
+![image](gif/accopen&login.gif)
+
