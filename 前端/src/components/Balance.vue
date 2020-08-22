@@ -3,7 +3,7 @@
   <div class="Balance">
 
         <el-main>
-          <el-form ref="form" :model="form" label-width="80px">
+          <el-form ref="balform" :model="balform" label-width="80px">
             <el-form-item label="余额">
               <el-input :disabled="true" v-model="balform.balance"></el-input>
             </el-form-item>
@@ -27,7 +27,6 @@ export default {
   data() {
     return {
       time:"",
-      name:global.name,
       balform:{
       balance: "",
       currtype: "",
@@ -58,9 +57,9 @@ export default {
     getbal(){
               axios({
         method: 'post',
-        url: 'http://127.0.0.1:25008/info/query/info',
+        // url: 'http://127.0.0.1:25008/info/query/info',
+        url: 'http://127.0.0.1:25008/accdetails/query/detail',
         headers: {
-   /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json", 
         },
         data:JSON.stringify( 
@@ -75,8 +74,8 @@ export default {
       })
         .then((response) => {
           this.name=global.name
-            this.balform.balance=(JSON.parse(response.data.账号信息)).curBalance
-              if(global.currtype==1)
+            this.balform.balance=(JSON.parse(response.data.账号信息)).balance
+              if(global.currtype=='0'||global.currtype==0)
               this.balform.currtype="人民币";
             else
               this.balform.currtype="其他币种";

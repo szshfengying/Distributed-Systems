@@ -2,7 +2,7 @@
   <div id="app">
     <img src="./assets/logo.png" />
     <el-container
-      style="height: 500px; border: 1px solid #eee"
+      style="height: 800px; border: 1px solid #eee"
       v-if="!(path==='/'||path==='/OpenAcc')"
     >
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -14,7 +14,7 @@
             <el-menu-item-group>
               <template slot="title">账户详情</template>
               <el-menu-item index="/Info">账户信息</el-menu-item>
-              <el-menu-item index="/Balance">余额查询</el-menu-item>
+              <el-menu-item index="/Details">明细查询</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group title="功能模块">
               <el-menu-item index="/Transfer">转账</el-menu-item>
@@ -33,7 +33,7 @@
               <el-dropdown-item @click.native="back">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>{{name}}</span>
+          <span>{{Cusname}}</span>
         </el-header>
         <el-main>
           <router-view />
@@ -47,13 +47,15 @@
 </template>
 
 <script>
-import global from '@/api/global'
+import global from './api/global'
+// import {name} from './components/Info'
 export default {
   name: "App",
 
   data() {
     return {
-      name: global.name,
+      // globalname : s,
+      Cusname: global.name,
       path: "",
     };
   },
@@ -72,6 +74,7 @@ export default {
     $route(to, from) {
       this.path = to.path;
     },
+
   },
 };
 </script>

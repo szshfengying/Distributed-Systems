@@ -133,14 +133,14 @@ export default {
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
         id: [{ required: true, message: "请输入身份证号", trigger: "blur" }],
-        // password: [
-        //   { required: true, message: "请输入密码", trigger: "blur" },
-        //   { validator: validatePass1, trigger: "blur" },
-        // ],
-        // checkPassword: [
-        //   { required: true, message: "请再次输入密码", trigger: "blur" },
-        //   { validator: validatePass2, trigger: "blur" },
-        // ],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { validator: validatePass1, trigger: "blur" },
+        ],
+        checkPassword: [
+          { required: true, message: "请再次输入密码", trigger: "blur" },
+          { validator: validatePass2, trigger: "blur" },
+        ],
       },
     };
   },
@@ -190,6 +190,7 @@ axios.interceptors.response.use(function (response) {
           axios({
             method: "post",
             url:"http://127.0.0.1:25008/open/accOpen/register",
+            // url: "http://10.23.14.167:25008/open/accOpen/register",
             headers: {
               /*         'Content-type': 'application/x-www-form-urlencoded', */
               "Content-Type": "application/json",

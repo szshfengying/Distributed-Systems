@@ -70,7 +70,7 @@ let validateAcc = (rule, value, callback) => {
       dataRule: {
         accid: [
           { required: true, message: "帐号不能为空", trigger: "blur" },
-          // { validator: validateAcc, trigger: "blur" }
+          { validator: validateAcc, trigger: "blur" }
         ],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" },
@@ -82,10 +82,69 @@ let validateAcc = (rule, value, callback) => {
     openacc() {
       this.$router.push({ path: "/OpenAcc" });
     },
-    login(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
+//     login(formName) {
+//       this.$refs[formName].validate((valid) => {
+//         if (valid) {
 
+//       // 添加请求拦截器
+//     axios.interceptors.request.use(function (config) {
+//     Loading.service({
+//     lock: true,
+//     text: '加载中……',
+//     background: 'rgba(0, 0, 0, 0.7)'
+//   })
+//       return config;
+//      }, function (error) {
+//        console.log("req error")
+//         // 对请求错误做些什么
+//         return Promise.reject(error);
+//     });
+
+//  // 添加响应拦截器
+// axios.interceptors.response.use(function (response) {
+//    Loading.service().close();
+//     // 对响应数据做点什么
+//     return response;
+//   }, function (error) {
+//     Loading.service().close();
+//     // 对响应错误做点什么
+//     return Promise.reject(error);
+//   });
+
+//       axios({
+//         method: 'post',
+//         url:'http://127.0.0.1:25008/login/AccLogin/login',
+//         headers: {
+//           "Content-Type": "application/json", 
+//         },
+//         transformRequest: [
+//               function (data) {
+//                 data = JSON.stringify(data);
+//                 return data;
+//               },
+//             ],
+     
+//         data: {
+//           accid: this.dataForm.accid,
+//           password: this.dataForm.password 
+//         }, 
+//       })
+//         .then((response) => {
+//               if (response.data.msg == "登录成功") { 
+//             global.accid=this.dataForm.accid;
+//            this.$router.push({ path: "/Info" });
+//            }
+//             else{
+//               this.$message(response.data.msg);
+//            }
+//         })
+//         .catch(function (error) {console.log(error);});
+//         };
+//         })
+
+//     },
+login() {
+      // 获取远端图片
       // 添加请求拦截器
     axios.interceptors.request.use(function (config) {
     Loading.service({
@@ -95,10 +154,11 @@ let validateAcc = (rule, value, callback) => {
   })
       return config;
      }, function (error) {
-       console.log("req error")
+       console.logo("req error")
         // 对请求错误做些什么
         return Promise.reject(error);
     });
+
 
  // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
@@ -113,24 +173,19 @@ axios.interceptors.response.use(function (response) {
 
       axios({
         method: 'post',
-        url:'http://127.0.0.1:25008/login/AccLogin/login',
+        url: 'http://127.0.0.1:25008/login/AccLogin/login',
         headers: {
+   /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json", 
         },
-        transformRequest: [
-              function (data) {
-                data = JSON.stringify(data);
-                return data;
-              },
-            ],
-     
-        data: {
+        data: 
+        {
           accid: this.dataForm.accid,
           password: this.dataForm.password 
         }, 
       })
         .then((response) => {
-              if (response.data.msg == "登录成功") { 
+            if (response.data.msg == "登录成功") { 
             global.accid=this.dataForm.accid;
            this.$router.push({ path: "/Info" });
            }
@@ -141,12 +196,8 @@ axios.interceptors.response.use(function (response) {
         .catch(function (error) {
           console.log(error);
         });
-
-
-        };
-        })
-
     },
+
 
     onInput() {
       this.$forceUpdate();
@@ -159,9 +210,5 @@ axios.interceptors.response.use(function (response) {
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1 {
-  font-weight: normal;
-  color: brown;
-}
+<style>
 </style>

@@ -2,25 +2,32 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
 import OpenAcc from '@/components/OpenAcc'
-// import Details from '@/components/Details'
+import Details from '@/components/Details'
 import Balance from '@/components/Balance'
 import Transfer from '@/components/Transfer'
-import Test from '@/components/Test'
+// import Test from '@/components/Test'
 import Info from '@/components/Info'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/Test',
-      name: 'Test',
-      component: Test
-  },
+  //   {
+  //     path: '/Test',
+  //     name: 'Test',
+  //     component: Test
+  // },
     {
       path: '/',
       name: 'Login',
       component: Login
+  },
+  {
+    path: '/Details',
+    name: 'Details',
+    components: {
+      default: Details,
+    }
   },
 
     {
@@ -28,13 +35,6 @@ export default new Router({
       name: 'OpenAcc',
       component: OpenAcc
     },
-    // {
-    //   path: '/Details',
-    //   name: 'Details',
-    //   components: {
-    //     default: Details,
-    //   }
-    // },
     {
       path: '/Info',
       name: 'Info',
