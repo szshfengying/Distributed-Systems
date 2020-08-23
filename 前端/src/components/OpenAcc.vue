@@ -36,28 +36,50 @@
         <el-input placeholder="请输入身份证号:" v-model="regForm.id" @input="onInput()"></el-input>
       </el-form-item>
 
-      <el-form-item label="密码:" prop="password">
+      <el-form-item label="登录密码:" prop="password">
         <el-input
-          placeholder="请输入密码:"
+          placeholder="请输入登录密码:"
           v-model="regForm.password"
           type="password"
           show-password
           @input="onInput()"
         ></el-input>
       </el-form-item>
-
-      <el-form-item label="确认密码:" prop="checkPassword">
+      <el-form-item label="确认登录密码:" prop="checkPassword">
         <el-input
-          placeholder="请再次输入密码:"
+          placeholder="请再次输入登录密码:"
           v-model="regForm.checkPassword"
           type="checkPassword"
           show-password
           @input="onInput()"
         ></el-input>
       </el-form-item>
+   
+       <el-form-item label="交易密码:" prop="pay_password">
+         
+        <el-input
+          placeholder="请输入交易密码:"
+          v-model="regForm.pay_password"
+          type="pay_password"
+          show-password
+          @input="onInput()"
+        ></el-input>
+         <font size="2" color="brown"> ⚠️交易密码用于交易操作，请注意与登录密码区分。</font>
+      </el-form-item>
+
+      <el-form-item label="确认交易密码:" prop="checkPay_password">
+        <el-input
+          placeholder="请再次输入交易密码:"
+          v-model="regForm.checkPay_password"
+          type="checkPay_password"
+          show-password
+          @input="onInput()"
+        ></el-input>
+      </el-form-item>
+
 
       <el-form-item>
-        <el-checkbox v-model="checked" label="免责声明" @input="onInput()">本人已知晓开户...风险提示,继续开户。</el-checkbox>
+        <el-checkbox v-model="checked" @input="onInput()">本人同意开通中国工商银行银行网上账户。</el-checkbox>
         <br />
         <el-button type="primary" @click="submit('regForm')" v-if="checked">确认开户</el-button>
         <el-button type="primary" v-else disabled>确认开户</el-button>
@@ -91,6 +113,41 @@ export default {
         callback();
       }
     };
+
+    let validateIDnumber = (rule, value, callback) => {
+      let reg = /^\d{18}$/;
+      if (!reg.test(value)) {
+        callback(new Error("身份证格式错误"));
+      } else {
+        callback();
+      }
+    };
+ let validatePhonenumber = (rule, value, callback) => {
+      let reg = /^\d{11}$/;
+      if (!reg.test(value)) {
+        callback(new Error("手机号不正确"));
+      } else {
+        callback();
+      }
+    };
+    let validatePayPass1 = (rule, value, callback) => {
+      // 6位数字
+      let reg = /^\d{6}$/;
+      if (!reg.test(value)) {
+        callback(new Error("密码长度需6位数字"));
+      } else {
+        callback();
+      }
+    };
+
+
+    let validatePayPass2 = (rule, value, callback) => {
+      if (value !== this.regForm.pay_password) {
+        callback(new Error("两次密码输入不一致"));
+      } else {
+        callback();
+      }
+    };
     return {
       regForm: {
         name: "",
@@ -100,26 +157,30 @@ export default {
         checkPassword: "",
         ExecTellerno: "",
         valueBranches: "",
+        pay_password:"",
+        checkPay_password:""
+
+
       },
       branches: branches,
-      execTellerno: [
-        {
-          value: 1,
-          label: "柜员1",
-        },
-        {
-          value: 2,
-          label: "柜员2",
-        },
-        {
-          value: 3,
-          label: "柜员3",
-        },
-        {
-          value: 4,
-          label: "柜员4",
-        },
-      ],
+      // execTellerno: [
+      //   {
+      //     value: 1,
+      //     label: "柜员1",
+      //   },
+      //   {
+      //     value: 2,
+      //     label: "柜员2",
+      //   },
+      //   {
+      //     value: 3,
+      //     label: "柜员3",
+      //   },
+      //   {
+      //     value: 4,
+      //     label: "柜员4",
+      //   },
+      // ],
 
       checked: false,
 
@@ -131,16 +192,29 @@ export default {
           { required: true, message: "请选择执行柜员", trigger: "blur" },
         ],
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
-        id: [{ required: true, message: "请输入身份证号", trigger: "blur" }],
+        phone: [{ required: true, message: "请输入电话号码", trigger: "blur" },
+        { validator: validatePhonenumber, trigger: "blur" }],
+        id: [{ required: true, message: "请输入身份证号", trigger: "blur" },
+         { validator: validateIDnumber, trigger: "blur" }],
         password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
+          { required: true, message: "请输入登录密码", trigger: "blur" },
           { validator: validatePass1, trigger: "blur" },
         ],
         checkPassword: [
-          { required: true, message: "请再次输入密码", trigger: "blur" },
+          { required: true, message: "请再次输入登录密码", trigger: "blur" },
           { validator: validatePass2, trigger: "blur" },
         ],
+        pay_password:[
+          { required: true, message: "请输入与登录密码不同的交易密码", trigger: "blur" },
+          { validator: validatePayPass1, trigger: "blur" },
+        ],
+
+        checkPay_password:[
+          { required: true, message: "请再次输入与登录密码不同的交易密码", trigger: "blur" },
+          { validator: validatePayPass2, trigger: "blur" },
+        ],
+
+
       },
     };
   },
@@ -190,7 +264,6 @@ axios.interceptors.response.use(function (response) {
           axios({
             method: "post",
             url:"http://127.0.0.1:25008/open/accOpen/register",
-            // url: "http://10.23.14.167:25008/open/accOpen/register",
             headers: {
               /*         'Content-type': 'application/x-www-form-urlencoded', */
               "Content-Type": "application/json",
@@ -202,19 +275,19 @@ axios.interceptors.response.use(function (response) {
               },
             ],
             data: {
-              // params: {
-              "execOrganno":
+              execOrganno:
                 this.regForm.valueBranches[0] +
                 this.regForm.valueBranches[1] +
                 this.regForm.valueBranches[2],
               // execTellerno: this.regForm.ExecTellerno,
               execTellerno: 1,
-              region: this.regForm.valueBranches[1],
+              region: this.regForm.valueBranches[0],
               branchId: this.regForm.valueBranches[2],
               accTitle: this.regForm.name,
               password: this.regForm.password,
-              // phone: this.regForm.phone,
-              // id: this.regForm.id,
+              phone: this.regForm.phone,
+              number: this.regForm.id,
+              payPassword: this.regForm.pay_password
             },
           })
             .then((response) => {
