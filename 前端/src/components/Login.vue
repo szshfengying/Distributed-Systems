@@ -34,9 +34,9 @@
         <el-input v-model="setupPwdform.phone" placeholder="请输入手机号码" @input="onInput()"></el-input>
       </el-form-item>
 
-      <el-form-item label="交易密码：" prop="payPwd">
+      <!-- <el-form-item label="交易密码：" prop="payPwd">
         <el-input v-model="setupPwdform.payPwd" placeholder="交易密码" show-password @input="onInput()"></el-input>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item label="新密码：" prop="newPwd">
         <el-input
@@ -168,7 +168,7 @@ export default {
         accid: "",
         IDnumber: "",
         phone: "",
-        payPwd: "",
+        // payPwd: "",
         newPwd: "",
         checknewPwd: "",
       },
@@ -185,10 +185,10 @@ export default {
           { required: true, message: "电话号码不能为空", trigger: "blur" },
           { validator: validatePhonenumber, trigger: "blur" },
         ],
-        payPwd: [
-          { required: true, message: "交易密码不能为空", trigger: "blur" },
-          { validator: validatePayPass1, trigger: "blur" },
-        ],
+        // payPwd: [
+        //   { required: true, message: "交易密码不能为空", trigger: "blur" },
+        //   { validator: validatePayPass1, trigger: "blur" },
+        // ],
         newPwd: [
           { required: true, message: "新密码不能为空", trigger: "blur" },
           { validator: validatePass1, trigger: "blur" },
@@ -235,16 +235,15 @@ export default {
           );
           axios({
             method: "post",
-            url: "http://127.0.0.1:25008/login/AccLogin/login", //要改这里
+            url: "http://127.0.0.1:25001/ForgetPassword/reset",
             headers: {
               "Content-Type": "application/json",
             },
             data: {
-              accid: this.setupPwdform.accid,
+              accId: this.setupPwdform.accid,
               number: this.setupPwdform.IDnumber,
               phone: this.setupPwdform.phone,
-              payPassword: this.setupPwdform.payPwd,
-              newPwd: this.setupPwdform.newPwd,
+              newpassword: this.setupPwdform.newPwd,
             },
           })
             .then((response) => {
