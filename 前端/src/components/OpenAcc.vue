@@ -303,7 +303,7 @@ axios.interceptors.response.use(function (response) {
                 this.$alert(response.data.msg, "开户失败", {
                   confirmButtonText: "确定",
                   callback: (action) => {
-                    this.$options.methods.back.bind(this)();
+                    // this.$options.methods.back.bind(this)();
                   },
                 });
               }

@@ -46,13 +46,12 @@
 </template>
 
 <script>
-import global from "./api/global";
-// import {name} from './components/Info'
+import global from "@//api/global";
 export default {
   name: "App",
-
+//
   data() {
-    return {
+    return {//
       lastTime: null, //最后一次点击的时间
       currentTime: null, //当前点击的时间
       timeOut: 1 * 60 * 1000, //设置超时时间： 1分钟,
@@ -61,8 +60,13 @@ export default {
     };
   },
 
+
   methods: {
+    load(){
+      this.Cusname=global.name;
+    },
     aboutUs() {},
+
     back() {
       this.$router.push({ path: "/" });
     },
@@ -89,6 +93,10 @@ export default {
   },
 
   mounted() {
+    
+
+    this.load();
+    
     this.path = this.$route.path;
   },
 

@@ -5,6 +5,7 @@ import OpenAcc from '@/components/OpenAcc'
 import Details from '@/components/Details'
 import Balance from '@/components/Balance'
 import Transfer from '@/components/Transfer'
+import Reset from '@/components/Reset'
 // import Test from '@/components/Test'
 import Info from '@/components/Info'
 
@@ -49,6 +50,11 @@ export default new Router({
       path: '/Balance',
       name: 'Balance',
       component: Balance
+    },
+    {
+      path: '/Reset',
+      name: 'Reset',
+      component: Reset
     },
   ]
 })

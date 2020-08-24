@@ -333,13 +333,20 @@ export default {
             },
           })
             .then((response) => {
-              if (response.data.msg == "登录成功") {
+              if (response.data.code== 10009||response.data.code== "10009") { 
                 global.accid = this.dataForm.accid;
+                global.jwt=response.data.token; 
                 this.$router.push({ path: "/Info" });
-              } else {
-                this.$message(response.data.msg);
-              }
-            })
+              } 
+             else if(response.data.code== 10008||response.data.code== "10008") { 
+             this.n=2,
+
+           this.$message(response.data.ret);
+           }
+            else{
+              this.$message(response.data.msg);
+           } 
+        })
             .catch(function (error) {
               console.log(error);
             });

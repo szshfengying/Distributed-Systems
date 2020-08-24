@@ -17,9 +17,7 @@
           >{{ scope.row.currType == 0 ? '人民币' : scope.row.currType == 1 ?'其他币种': '' }}</template>
         </el-table-column>
 
-        <el-table-column prop="txnId" label="交易订单号" width="200">
-        </el-table-column>
-
+        <el-table-column prop="txnId" label="交易订单号" width="200"></el-table-column>
       </el-table>
     </el-main>
   </div>
@@ -62,6 +60,7 @@ export default {
         url: "http://127.0.0.1:25008/details/query/detail",
         headers: {
           "Content-Type": "application/json",
+          token: global.jwt,
         },
         data: JSON.stringify({
           currType: "1",
@@ -73,10 +72,28 @@ export default {
         }),
       })
         .then((response) => {
-          // console.log(response);
-          this.tableData = JSON.parse(response.data.账号信息);
+          if (
+            global.accid == "" ||
+            response.data.code == 500 ||
+            response.data.code == "500"
+          ) {
+            this.$alert(response.data.msg, "当前网页环境不安全，请重新登录", {
+              confirmButtonText: "确定",
+              callback: (action) => {
+                this.$router.push({ path: "/" });
+              },
+            });
+          } else {
+            this.tableData = JSON.parse(response.data.账号信息);
+          }
         })
         .catch(function (error) {
+          this.$alert(response.data.msg, "当前网页环境不安全，请重新登录", {
+            confirmButtonText: "确定",
+            callback: (action) => {
+              this.$router.push({ path: "/" });
+            },
+          });
           console.log("error");
         });
     },

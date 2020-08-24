@@ -16,6 +16,7 @@
             </el-form-item>
             
              <el-button type="primary" @click="show()">{{showdata}}</el-button> 
+             <el-button type="primary" @click="reset()">重置密码</el-button>
           </el-form>
         </el-main>
   </div>
@@ -47,6 +48,23 @@ export default {
   },
 
   methods:{
+    check()
+    {
+        if(global.accid=="")
+          {
+              console.log("aaa")
+               this.$alert("请重新登录", {
+                  confirmButtonText: "确定",
+                  callback: (action) => {
+                      this.$router.push({ path: "/" });
+                  },
+                });
+          }
+    },
+    reset()
+    {
+      this.$router.push({ path: "/Reset" });
+    },
    show()
     {
         if(this.n=="1"||this.n==1)
@@ -86,6 +104,7 @@ export default {
         headers: {
    /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json", 
+          "token":global.jwt,
         },
         data:JSON.stringify( 
         {
@@ -97,7 +116,18 @@ export default {
           "txnDate":this.time
         }), 
       })
-        .then((response) => {
+           .then((response) => {
+            if(global.accid==""||response.data.code==500||response.data.code=="500")
+            {
+                  this.$alert(response.data.msg, "当前网页环境不安全，请重新登录", {
+                  confirmButtonText: "确定",
+                  callback: (action) => {
+                      this.$router.push({ path: "/" });
+                  },
+                });
+            }
+            else
+            {
             this.accid=global.accid
             global.name=(JSON.parse(response.data.账号信息)).accTitle
             global.currtype=(JSON.parse(response.data.账号信息)).currType
@@ -110,6 +140,7 @@ export default {
             else
               this.infoform.currtype="其他币种";
               consloe.log(global)
+            }
         })
         .catch(function (error) {
           console.log(error);
