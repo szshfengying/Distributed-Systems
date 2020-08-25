@@ -71,7 +71,8 @@ export default {
     Transfer() {
       axios({
         method: "post",
-        url: "http://127.0.0.1:25008/transfer/transfer/transfer",
+        // url: "http://127.0.0.1:25008/transfer/transfer/transfer",
+        url: "http://127.0.0.1:25020/transfer/transfer",
         headers: {
           /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json",

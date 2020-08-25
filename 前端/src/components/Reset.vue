@@ -99,7 +99,7 @@ export default {
         if (valid) {
            axios({
             method: "post",
-            url:"http://127.0.0.1:25008/rest/ResetPassword/reset",
+            url:"http://127.0.0.1:25001/rest/ResetPassword/reset",
             // url: "http://10.23.14.167:25008/open/accOpen/register",
             headers: {
               /*         'Content-type': 'application/x-www-form-urlencoded', */

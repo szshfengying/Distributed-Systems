@@ -24,7 +24,7 @@
       </el-aside>
 
       <el-container >
-        <el-header style="text-align: right; font-size: 12px">
+        <el-header style="text-align: right; font-size: 12px" v-model="Cusname">
           <el-dropdown>
             <i class="el-icon-setting" style="margin-right: 15px"></i>
             <el-dropdown-menu slot="dropdown">
@@ -34,6 +34,7 @@
             </el-dropdown-menu>
           </el-dropdown>
           <span>{{Cusname}}</span>
+          <!-- <p>{{Cusname}}</p> -->
         </el-header>
         <el-main>
           <router-view />
@@ -54,7 +55,7 @@ export default {
     return {//
       lastTime: null, //最后一次点击的时间
       currentTime: null, //当前点击的时间
-      timeOut: 1 * 60 * 1000, //设置超时时间： 1分钟,
+      timeOut: 5 * 60 * 1000, //设置超时时间： 1分钟,
       Cusname: global.name,
       path: "",
     };
@@ -65,7 +66,27 @@ export default {
     load(){
       this.Cusname=global.name;
     },
-    aboutUs() {},
+    aboutUs() {
+        const confirmText = ['我们是工行软开珠海研发一部小分队。', '______________','- 联系电话：020-88888888', "- 联系邮箱：123456789@icbc.com"] 
+        const newDatas = []
+        const h = this.$createElement
+        for (const i in confirmText) {
+          newDatas.push(h('p', null, confirmText[i]))
+        }
+        this.$confirm(
+          '关于我们',
+          {
+            title: '关于我们',
+            message: h('div', null, newDatas),
+            showCancelButton: false,
+            confirmButtonText: '真棒👍',
+            // cancelButtonText: '取消',
+            // type: 'warning'
+          }
+        ).then(() => {
+        })
+    },
+    //
 
     back() {
       this.$router.push({ path: "/" });

@@ -100,7 +100,8 @@ export default {
       getinfo() {
       axios({
         method: 'post',
-        url: 'http://127.0.0.1:25008/info/query/info',
+        // url: 'http://127.0.0.1:25008/info/query/info',
+        url: 'http://127.0.0.1:25003/query/info',
         headers: {
    /*         'Content-type': 'application/x-www-form-urlencoded', */
           "Content-Type": "application/json", 
@@ -139,7 +140,7 @@ export default {
               this.infoform.currtype="人民币";
             else
               this.infoform.currtype="其他币种";
-              consloe.log(global)
+              console.log(global)
             }
         })
         .catch(function (error) {

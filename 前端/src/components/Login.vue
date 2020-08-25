@@ -36,7 +36,7 @@
 
       <!-- <el-form-item label="交易密码：" prop="payPwd">
         <el-input v-model="setupPwdform.payPwd" placeholder="交易密码" show-password @input="onInput()"></el-input>
-      </el-form-item> -->
+      </el-form-item>-->
 
       <el-form-item label="新密码：" prop="newPwd">
         <el-input
@@ -236,6 +236,7 @@ export default {
           axios({
             method: "post",
             url: "http://127.0.0.1:25001/ForgetPassword/reset",
+            // url:"http://127.0.0.1:25008/forget/ForgetPassword/reset",
             headers: {
               "Content-Type": "application/json",
             },
@@ -252,14 +253,14 @@ export default {
                 this.$alert(msg, "重置密码成功", {
                   confirmButtonText: "前往登录",
                   callback: (action) => {
-                    this.$options.methods.back.bind(this)();
+                    this.$refs["setupPwdform"].resetFields();
+                    this.flag_forgetPwd = false;
                   },
                 });
               } else {
                 this.$alert(response.data.msg, "重置密码失败", {
                   confirmButtonText: "确定",
                   callback: (action) => {
-                    // this.$options.methods.back.bind(this)();
                   },
                 });
               }
@@ -322,7 +323,8 @@ export default {
 
           axios({
             method: "post",
-            url: "http://127.0.0.1:25008/login/AccLogin/login",
+            // url: "http://127.0.0.1:25008/login/AccLogin/login",
+            url: "http://127.0.0.1:25001/AccLogin/login",
             headers: {
               /*         'Content-type': 'application/x-www-form-urlencoded', */
               "Content-Type": "application/json",
@@ -333,20 +335,22 @@ export default {
             },
           })
             .then((response) => {
-              if (response.data.code== 10009||response.data.code== "10009") { 
+              if (
+                response.data.code == 10009 ||
+                response.data.code == "10009"
+              ) {
                 global.accid = this.dataForm.accid;
-                global.jwt=response.data.token; 
+                global.jwt = response.data.token;
                 this.$router.push({ path: "/Info" });
-              } 
-             else if(response.data.code== 10008||response.data.code== "10008") { 
-             this.n=2,
-
-           this.$message(response.data.ret);
-           }
-            else{
-              this.$message(response.data.msg);
-           } 
-        })
+              } else if (
+                response.data.code == 10008 ||
+                response.data.code == "10008"
+              ) {
+                (this.n = 2), this.$message(response.data.ret);
+              } else {
+                this.$message(response.data.msg);
+              }
+            })
             .catch(function (error) {
               console.log(error);
             });

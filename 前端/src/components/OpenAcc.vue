@@ -263,7 +263,8 @@ axios.interceptors.response.use(function (response) {
 
           axios({
             method: "post",
-            url:"http://127.0.0.1:25008/open/accOpen/register",
+            // url:"http://127.0.0.1:25008/open/accOpen/register",
+            url:"http://127.0.0.1:25001/accOpen/register",
             headers: {
               /*         'Content-type': 'application/x-www-form-urlencoded', */
               "Content-Type": "application/json",
