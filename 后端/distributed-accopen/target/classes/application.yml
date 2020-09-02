@@ -1,0 +1,51 @@
+spring:
+  datasource:
+#    username: root
+#    password: root
+#    url: jdbc:mysql://112.124.19.61:3306/acctest?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://120.26.160.234:8066/TESTDB?useUnicode=true&characterEncoding=UTF-8
+    username: mycat
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.26.160.234:8848
+#        ip: 112.124.20.200
+  application:
+    name: distributed-accopen
+
+  thymeleaf:
+     prefix: classpath:/templates/
+     suffix: .html
+     cache: false
+     content-type: text/html
+     enable: true
+     encoding: UTF-8
+     model: HTML5
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      sensitive: false
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+server:
+  port: 25001
+
+logging:
+  file:
+    name: G:/data/admin/accopen/logs/accopen.log

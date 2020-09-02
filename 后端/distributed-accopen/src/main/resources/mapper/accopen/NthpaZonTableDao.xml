@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icbc.distributed.accopen.dao.NthpaZonTableDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.icbc.distributed.accopen.entity.NthpaZonTableEntity" id="nthpaZonTableMap">
+        <result property="snId" column="sn_id"/>
+        <result property="zoneno" column="zoneno"/>
+        <result property="notes" column="notes"/>
+        <result property="status" column="status"/>
+        <result property="lstmodd" column="lstmodd"/>
+        <result property="bakdecl" column="bakdecl"/>
+        <result property="bakchar" column="bakchar"/>
+        <result property="province" column="province"/>
+    </resultMap>
+
+
+</mapper>

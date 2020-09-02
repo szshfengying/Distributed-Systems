@@ -52,7 +52,6 @@ export default {
     {
         if(global.accid=="")
           {
-              console.log("aaa")
                this.$alert("请重新登录", {
                   confirmButtonText: "确定",
                   callback: (action) => {
@@ -140,7 +139,7 @@ export default {
               this.infoform.currtype="人民币";
             else
               this.infoform.currtype="其他币种";
-              console.log(global)
+              // console.log(global)
             }
         })
         .catch(function (error) {

@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    username: mycat
+    password: 123456
+    #    username: root
+    #    password: root
+    url: jdbc:mysql://120.26.160.234:8066/TESTDB?useUnicode=true&characterEncoding=UTF-8
+    #    url: jdbc:mysql://192.168.56.10:3306/distributed_system
+    driver-class-name: com.mysql.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.26.160.234:8848 #127.0.0.1:8848
+#        ip: 112.124.20.200
+  application:
+    name: distributed-accinfo
+
+  thymeleaf:
+     prefix: classpath:/templates/
+     suffix: .html
+     cache: false
+     content-type: text/html
+     enable: true
+     encoding: UTF-8
+     model: HTML5
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 25003
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      sensitive: false
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+logging:
+  file:
+    name: G:/data/admin/accinfo/logs/accinfo.log

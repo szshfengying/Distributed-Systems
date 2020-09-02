@@ -1,0 +1,47 @@
+spring:
+  datasource:
+    username: mycat
+    password: 123456
+    #    username: root
+    #    password: root
+    url: jdbc:mysql://120.26.160.234:8066/TESTDB?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.26.160.234:8848
+#        ip: 120.26.161.44
+  application:
+    name: distributed-interest
+
+  thymeleaf:
+     prefix: classpath:/templates/
+     suffix: .html
+     cache: false
+     content-type: text/html
+     enable: true
+     encoding: UTF-8
+     model: HTML5
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 25005
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      sensitive: false
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+logging:
+  file:
+    name: G:/data/admin/interest/logs/interest.log

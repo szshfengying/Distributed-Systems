@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icbc.distributed.accopen.dao.AccAgrtTableDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.icbc.distributed.accopen.entity.AccAgrtTableEntity" id="accAgrtTableMap">
+        <result property="snId" column="sn_id"/>
+        <result property="accId" column="acc_id"/>
+        <result property="currType" column="curr_type"/>
+        <result property="rateIncm" column="rate_incm"/>
+        <result property="rateAltf" column="rate_altf"/>
+        <result property="baseRate" column="base_rate"/>
+        <result property="floaType" column="floa_type"/>
+        <result property="floaRate" column="floa_rate"/>
+        <result property="lastRateDate" column="last_rate_date"/>
+        <result property="lastOrganno" column="last_organno"/>
+        <result property="lastTellerno" column="last_tellerno"/>
+        <result property="lastModifyDate" column="last_modify_date"/>
+        <result property="regionId" column="region_id"/>
+    </resultMap>
+
+
+</mapper>

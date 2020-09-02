@@ -58,6 +58,7 @@ export default {
       axios({
         method: "post",
         // url: "http://127.0.0.1:25008/details/query/detail",
+        // url:'http://10.23.14.167:25002/query/detail', 
         url: "http://127.0.0.1:25002/query/detail",
         headers: {
           "Content-Type": "application/json",

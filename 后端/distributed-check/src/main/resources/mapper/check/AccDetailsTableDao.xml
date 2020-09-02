@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icbc.distributed.check.dao.AccDetailsTableDao">
+    <select id="netting"  resultType="com.icbc.distributed.check.entity.NettingEntity">
+SELECT
+    tb1.acc_id,
+    amount,
+    (diff - amou) AS result,
+    tb1.loan_flag,
+    tb1.exec_date,
+    tb1.curr_type
+  FROM
+    (SELECT
+      acc_id,
+      amount,
+      - amount * POWER(- 1, loan_flag) AS amou,
+      loan_flag,
+      exec_date,
+      curr_type
+    FROM
+      acc_details_table
+    WHERE exec_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+      AND curr_type = 0) AS tb1
+    JOIN
+      (SELECT
+        acc_id,
+        r1 - r2 AS diff
+      FROM
+        (SELECT
+          acc_id,
+          cur_balance r1,
+          yday_balance r2
+        FROM
+          acc_balance_table
+        WHERE acc_id IN
+          (SELECT
+            acc_id
+          FROM
+            acc_balance_table)) AS tmp ) AS tb2
+      ON tb1.acc_id = tb2.acc_id ;
+    </select>
+<!--tb1.loan_flag AS loanFlag-->
+</mapper>

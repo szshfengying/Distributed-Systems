@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icbc.distributed.check.dao.AccIntTableDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.icbc.distributed.check.entity.AccIntTableEntity" id="accIntTableMap">
+        <result property="snId" column="sn_id"/>
+        <result property="accId" column="acc_id"/>
+        <result property="currType" column="curr_type"/>
+        <result property="intEvino" column="int_evino"/>
+        <result property="status" column="status"/>
+        <result property="beginDate" column="begin_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="intDate" column="int_date"/>
+        <result property="amount" column="amount"/>
+        <result property="rateIncn" column="rate_incn"/>
+        <result property="rateAltf" column="rate_altf"/>
+        <result property="rateCode" column="rate_code"/>
+        <result property="baseRate" column="base_rate"/>
+        <result property="floaType" column="floa_type"/>
+        <result property="floaRate" column="floa_rate"/>
+        <result property="execRate" column="exec_rate"/>
+        <result property="execOrganno" column="exec_organno"/>
+        <result property="execTellerno" column="exec_tellerno"/>
+        <result property="execDate" column="exec_date"/>
+        <result property="execTimestamp" column="exec_timestamp"/>
+        <result property="regionId" column="region_id"/>
+    </resultMap>
+
+
+</mapper>

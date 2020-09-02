@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.icbc.distributed</groupId>
+    <artifactId>distributed</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>distributed</name>
+    <description>分布式金融系统聚合</description>
+    <packaging>pom</packaging>
+    <modules>
+        <module>distributed-accdetails</module>
+        <module>distributed-accinfo</module>
+        <module>distributed-accopen</module>
+        <module>distributed-check</module>
+        <module>distributed-interest</module>
+        <module>distributed-transfer</module>
+        <module>distributed-commo</module>
+        <module>gateway</module>
+        <module>utils</module>
+    </modules>
+</project>

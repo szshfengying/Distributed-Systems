@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icbc.distributed.transfer.dao.AccDetailsTableDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.icbc.distributed.transfer.entity.AccDetailsTableEntity" id="accDetailsTableMap">
+        <result property="departId" column="depart_id"/>
+        <result property="accId" column="acc_id"/>
+        <result property="currType" column="curr_type"/>
+        <result property="txnId" column="txn_id"/>
+        <result property="execOrganno" column="exec_organno"/>
+        <result property="execTellerno" column="exec_tellerno"/>
+        <result property="snId" column="sn_id"/>
+        <result property="execDate" column="exec_date"/>
+        <result property="txnCode" column="txn_code"/>
+        <result property="cashFlag" column="cash_flag"/>
+        <result property="loanFlag" column="loan_flag"/>
+        <result property="amount" column="amount"/>
+        <result property="balance" column="balance"/>
+        <result property="regionId" column="region_id"/>
+    </resultMap>
+
+
+</mapper>

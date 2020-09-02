@@ -1,0 +1,119 @@
+server:
+  port: 25008
+spring:
+  application:
+    name: distributed-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.26.160.234:8848
+        #ip: 112.124.20.200
+    application:
+      name: gateway
+    gateway:
+      discovery:
+        locator:
+          enabled: false #表明gateway开启服务注册和发现的功能，并且spring cloud gateway自动根据服务发现为每一个服务创建了一个router，# 这个router将以服务名开头的请求路径转发到对应的服务
+          lower-case-service-id: true #将请求路径上的服务名配置为小写（因为服务注册的时候，向注册中心注册时将服务名转成大写的了,比如以/service-hi/*的请求路径被路由转发到服务名为service-hi的服务上
+      routes:
+        - id: details-gateway
+          uri: lb://distributed-accdetails #端口地址
+          predicates:
+            - Path=/details/query/** #匹配规则  *代表所有的字符 例子： /details/a/a  请求满足条件进行转发， /details/a/a/b  不满足条件不转发
+          filters:
+            - StripPrefix=1 #过滤规则  过滤掉第一个字段 details  转发 /*/*
+          # http://127.0.0.1:25008/details/test/test  转发后变成   http://127.0.0.1:25002/test/test
+
+        - id: open-gateway
+          uri: lb://distributed-accopen
+          predicates:
+            - Path=/open/accOpen/*
+          filters:
+            - StripPrefix=1
+
+        - id:  login-gateway
+          uri: lb://distributed-accopen
+          predicates:
+            - Path=/login/AccLogin/*
+          filters:
+            - StripPrefix=1
+
+        - id:  resetpassword-gateway
+          uri: lb://distributed-accopen
+          predicates:
+            - Path=/rest/ResetPassword/*
+          filters:
+            - StripPrefix=1
+
+        - id:  forgetpassword-gateway
+          uri: lb://distributed-accopen
+          predicates:
+            - Path=/forget/ForgetPassword/*
+          filters:
+            - StripPrefix=1
+
+        - id: info-gateway
+          uri: lb://distributed-accinfo
+          predicates:
+            - Path=/info/query/**
+          filters:
+            - StripPrefix=1
+
+        - id: accdetails-gateway
+          uri: lb://distributed-accdetails
+          predicates:
+            - Path=/accdetails/query/**
+          filters:
+            - StripPrefix=1
+
+        - id: check-gateway
+          uri: lb://distributed-check
+          predicates:
+            - Path=/check/AccCheck/*
+          filters:
+            - StripPrefix=1
+
+        - id: transfer-gateway
+          uri: lb://distributed-transfer
+          predicates:
+            - Path=/transfer/transfer/*
+          filters:
+            - StripPrefix=1
+
+        - id: transfercheck-gateway
+          uri: lb://distributed-transfer
+          predicates:
+            - Path=/check/transfer/*
+          filters:
+            - StripPrefix=1
+
+
+  thymeleaf:
+     prefix: classpath:/templates/
+     suffix: .html
+     cache: false
+     content-type: text/html
+     enable: true
+     encoding: UTF-8
+     model: HTML5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      sensitive: false
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+logging:
+  file:
+    name: G:/data/admin/gateway/logs/gateway.log
+
+
+
+
+
+

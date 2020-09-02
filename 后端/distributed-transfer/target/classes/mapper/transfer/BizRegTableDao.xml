@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icbc.distributed.transfer.dao.BizRegTableDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.icbc.distributed.transfer.entity.BizRegTableEntity" id="bizRegTableMap">
+        <result property="snId" column="sn_id"/>
+        <result property="accId" column="acc_id"/>
+        <result property="txnDate" column="txn_date"/>
+        <result property="txnId" column="txn_id"/>
+        <result property="channelType" column="channel_type"/>
+        <result property="execOrganno" column="exec_organno"/>
+        <result property="execTellerno" column="exec_tellerno"/>
+        <result property="txnCode" column="txn_code"/>
+        <result property="txnType" column="txn_type"/>
+        <result property="cashTransferFlag" column="cash_transfer_flag"/>
+        <result property="debitAccId" column="debit_acc_id"/>
+        <result property="debitAccName" column="debit_acc_name"/>
+        <result property="debitCurrType" column="debit_curr_type"/>
+        <result property="debitAmount" column="debit_amount"/>
+        <result property="creditAccId" column="credit_acc_id"/>
+        <result property="creditAccName" column="credit_acc_name"/>
+        <result property="creditCurrType" column="credit_curr_type"/>
+        <result property="creditAmount" column="credit_amount"/>
+        <result property="status" column="status"/>
+        <result property="lastModifyDate" column="last_modify_date"/>
+        <result property="regionId" column="region_id"/>
+    </resultMap>
+
+
+</mapper>

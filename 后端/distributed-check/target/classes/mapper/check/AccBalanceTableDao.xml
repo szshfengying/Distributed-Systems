@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icbc.distributed.check.dao.AccBalanceTableDao">
+    <!--<select id="balanceDiff"  resultType="com.icbc.distributed.check.entity.BalanceDifferenceEntity">-->
+        <!--SELECT acc_id,  r1-r2 as diff FROM (SELECT acc_id, cur_balance r1 , yday_balance r2 FROM acc_balance_table WHERE acc_id IN (SELECT acc_id FROM acc_balance_table)) AS a-->
+    <!--</select>-->
+</mapper>
+
+

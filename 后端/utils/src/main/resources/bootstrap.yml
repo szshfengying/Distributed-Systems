@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: util
+  datasource:     #替换mycat地址
+#    url: jdbc:mysql://120.26.160.234:8066/TESTDB?useUnicode=true&characterEncoding=UTF-8
+#    username: mycat
+#    password: 123456
+    url: jdbc:mysql://112.124.19.61:3306/acctest?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    jpa:
+      show-sql: true
+      properties:
+        hibernate:
+          format_sql: true
+  main:
+    allow-bean-definition-overriding: true
+  cloud:   #替换nacos地址
+    nacos:
+      discovery:
+        server-addr: 120.26.160.234:8848
+        #ip: 112.124.20.200
+
+
+server:
+  port: 25007
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      sensitive: false
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+logging:
+  file:
+    name: G:/data/admin/utils/logs/utils.log
+

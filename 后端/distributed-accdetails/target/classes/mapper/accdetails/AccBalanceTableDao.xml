@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icbc.distributed.accdetails.dao.AccBalanceTableDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.icbc.distributed.accdetails.entity.AccBalanceTableEntity" id="accBalanceTableMap">
+        <result property="snId" column="sn_id"/>
+        <result property="accId" column="acc_id"/>
+        <result property="currType" column="curr_type"/>
+        <result property="curBalance" column="cur_balance"/>
+        <result property="ydayBalance" column="yday_balance"/>
+        <result property="lastTxnDate" column="last_txn_date"/>
+        <result property="regionId" column="region_id"/>
+    </resultMap>
+
+
+</mapper>
