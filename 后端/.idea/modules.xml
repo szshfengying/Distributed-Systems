@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/distributed.iml" filepath="$PROJECT_DIR$/distributed.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-accdetails/distributed-accdetails.iml" filepath="$PROJECT_DIR$/distributed-accdetails/distributed-accdetails.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-accinfo/distributed-accinfo.iml" filepath="$PROJECT_DIR$/distributed-accinfo/distributed-accinfo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-accopen/distributed-accopen.iml" filepath="$PROJECT_DIR$/distributed-accopen/distributed-accopen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-check/distributed-check.iml" filepath="$PROJECT_DIR$/distributed-check/distributed-check.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-commo/distributed-commo.iml" filepath="$PROJECT_DIR$/distributed-commo/distributed-commo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-interest/distributed-interest.iml" filepath="$PROJECT_DIR$/distributed-interest/distributed-interest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-transfer/distributed-transfer.iml" filepath="$PROJECT_DIR$/distributed-transfer/distributed-transfer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/utils/utils.iml" filepath="$PROJECT_DIR$/utils/utils.iml" />
+    </modules>
+  </component>
+</project>

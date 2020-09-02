@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="distributed-accinfo" />
+        <module name="distributed-interest" />
+        <module name="distributed-commo" />
+        <module name="distributed-accopen" />
+        <module name="utils" />
+        <module name="gateway" />
+        <module name="distributed-check" />
+        <module name="distributed-accdetails" />
+        <module name="distributed-transfer" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="distributed" target="1.5" />
+      <module name="distributed-accdetails" target="1.8" />
+      <module name="distributed-accinfo" target="1.8" />
+      <module name="distributed-accopen" target="1.8" />
+      <module name="distributed-check" target="1.8" />
+      <module name="distributed-commo" target="1.8" />
+      <module name="distributed-interest" target="1.8" />
+      <module name="distributed-transfer" target="1.8" />
+      <module name="gateway" target="1.8" />
+      <module name="utils" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="distributed-accdetails" options="-parameters" />
+      <module name="distributed-accinfo" options="-parameters" />
+      <module name="distributed-accopen" options="-parameters" />
+      <module name="distributed-check" options="-parameters" />
+      <module name="distributed-interest" options="-parameters" />
+      <module name="distributed-transfer" options="-parameters" />
+      <module name="gateway" options="-parameters" />
+      <module name="utils" options="-parameters" />
+    </option>
+  </component>
+</project>
